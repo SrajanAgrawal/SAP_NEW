@@ -23,10 +23,11 @@ const eventsschema = new mongoose.Schema({
     type: objectId[] users
    },
    thumbnail: {
-    
-   }
+
+   },
    date: {
     type: date
+
    },
    startTime: {
     type: timestamp
