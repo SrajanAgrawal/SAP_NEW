@@ -1,8 +1,20 @@
-import mongoose from "mongoose"
+import mongoose, { isValidObjectId } from "mongoose"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
 const userSchema = new mongoose.Schema({
+    id: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    firstname: {
+        type: String,
+        required: true
+    },
+    lastname: {
+        type: String
+    },
     username: {
         type: String,
         required: true,
@@ -17,11 +29,35 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // this is a new field - 30/03/24
+    
     avatar : {
         type: String,
         required: true
     },
+    phonenumber: {
+        type: String,
+        required: true,
+        unique: true
+    }, 
+    DOB: {
+     type: Date
+    },
+    companyname: {
+    type: String
+    },
+    upComingEvents: {
+      type: ObjectId[] events
+    },
+    role: {
+        type: String
+    },
+    otp: {
+        type: String
+    },
+    createdby: {
+        type: timestamp
+    },
+   
     refreshToken: {
         type: String,
     }
