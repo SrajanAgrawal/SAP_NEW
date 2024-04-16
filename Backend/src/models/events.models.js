@@ -1,66 +1,76 @@
 import mongoose from "mongoose";
 
 const eventsschema = new mongoose.Schema({
+   
    id: {
-    type: String,
-    required: true,
-    unique: true
+      type: String,
+      required: true,
+      unique: true
    },
    title: {
-    type: String,
-    required: true
+      type: String,
+      required: true
    },
    description: {
-    type: string
+      type: string
    },
    organizedBy: {
-    type: objectId[] users,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
    },
    attendies: {
-    type: objectId[] users
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
    },
    speakers: {
-    type: objectId[] users
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
    },
    thumbnail: {
-
+      type: String,
+      required: true
    },
    date: {
-    type: date
-
+      type: date
    },
    startTime: {
-    type: timestamp
+      type: timestamp
    },
    endTime: {
-    type: timestamp
+      type: timestamp
    },
    tags: {
-    type: String
+      type: String
    }, 
    mode: {
-    type: enum,
+      type: String,
+      enums: [online, offline, hybrid, remote]
    },
    city: {
-    type: String,
+      type: String,
    },
    state: {
-    type: String
+      type: String
    },
    country: {
-    type: String
+      type: String
    }, 
    eventURL: {
-    type: String
+      type: String
    },
    images: {
-    type: String[]
+      type: String
    },
    ratings: {
-    type: Number
-   },
+      type: Number,
+      min: 1,
+      max: 5,
+      default: 1
+  },
    eventsCategory: {
-    type: enum,
+      type: String,
+      enums: [education, job]
    }
 } , {timestamps: true}
 )

@@ -40,13 +40,14 @@ const userSchema = new mongoose.Schema({
         unique: true
     }, 
     DOB: {
-     type: Date
+        type: Date
     },
     companyname: {
-    type: String
+        type: String
     },
     upComingEvents: {
-      type: ObjectId[] events
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'events'
     },
     role: {
         type: String
