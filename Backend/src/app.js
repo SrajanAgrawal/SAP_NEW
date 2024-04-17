@@ -19,10 +19,12 @@ app.use(cookieParser())
 
 // import all the routers here.
 import userRouter from "./routes/user.routes.js"
+import eventRouter from "./routes/events.routes.js"
 
 
 // routes middlewares information - version 1
 app.use("/api/v1/user", userRouter);
+app.use("api/v1/events", eventRouter);
 
 
 
