@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 
+const EventCategoriesArray = [     "Web Development",     "Mobile App Development",     "Graphics Design",     "Robotics",     "Artificial Intelligence (AI)",     "Cybersecurity",     "Data Science and Analytics",     "Blockchain and Cryptocurrency",     "Internet of Things (IoT)",     "Game Development",     "Digital Marketing",     "Entrepreneurship and Startup",     "Virtual Reality (VR) and Augmented Reality (AR)",     "Soft Skills Development",     "Career Development",     "Resume Development",     "Website Hosting",     "GitHub",     "Deployment Strategies",     "Authentication Methods"];
+
 const eventSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -26,20 +28,24 @@ const eventSchema = new mongoose.Schema({
         required: true
     },
     date: {
-        type: Date
+        type: Date,
+        required: true
     },
     startTime: {
-        type: Date
+        type: Date,
+        required: true
     },
     endTime: {
-        type: Date
+        type: Date,
+        required: true
     },
     tags: [{
         type: String
     }],
     mode: {
         type: String,
-        enum: ['online', 'in-hand', 'hybrid']
+        enum: ['online', 'in-person', 'hybrid'],
+        required: true
     },
     city: {
         type: String,
@@ -54,7 +60,8 @@ const eventSchema = new mongoose.Schema({
         required: true
     },
     eventURL: {
-        type: String
+        type: String,
+        required: true
     },
     images: [{
         type: String
@@ -67,7 +74,8 @@ const eventSchema = new mongoose.Schema({
     },
     eventsCategory: {
         type: String,
-        enum: ['education', 'job', 'AI']
+        enum: EventCategoriesArray,
+        required: true
     }
 }, { timestamps: true });
 

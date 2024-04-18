@@ -1,6 +1,8 @@
 import { Event } from '../models/Event';
 
 // Add a new event
+// make changes according the reuired field and check fields
+
 const addEvent = async (req, res) => {
         try {
             const newEvent = await Event.create(req.body);
