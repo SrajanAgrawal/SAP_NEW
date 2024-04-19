@@ -1,5 +1,5 @@
-import { Event } from '../models/Event';
-import { uploadFileOnCloudinary } from '../utils/cloudinary';
+import { Event } from '../models/events.models.js';
+import { uploadFileOnCloudinary } from '../utils/cloudinary.js';
 
 
 export const addNewEvent = async (req,res) => {

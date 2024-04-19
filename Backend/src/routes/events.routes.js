@@ -1,12 +1,12 @@
 import Router from "express";
-import {addEvent, addEventImages, searchEvents} from "../controllers/events.controllers";
-import { upload } from "../middlewares/multer.middleware";
-import verifyJWT from "../middlewares/auth.middleware";
+import {addNewEvent, addEventImages, searchEvents} from "../controllers/events.controllers.js";
+import { upload } from "../middlewares/multer.middleware.js";
+import verifyJWT from "../middlewares/auth.middleware.js";
 
-const router = express.Router();
+const router = Router();
 
 // Route to add a new event
-router.route("/addEvent").post(upload.single("thumbnail"), addEvent)
+router.route("/addEvent").post(upload.single("thumbnail"), addNewEvent)
 
 // Route to add images to an event
 router.route("/addeventImages").post(verifyJWT, addEventImages)

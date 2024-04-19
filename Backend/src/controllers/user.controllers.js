@@ -36,16 +36,16 @@ const registerUser = async (req, res) => {
     const avatarLocalPath = req.file?.path;
     console.log(avatarLocalPath);
 
-    const { username, email, password } = req.body;
-
+    const { username, email, password, firstname, lastname, phonenumber } = req.body;
+    console.log(phonenumber, firstname)
     // validations
-    if (!(username && email && password)) {
+    if (!(username && email && password && firstname && lastname && phonenumber)) {
        return res.status(400).json({ message: "All fields are required" })
     }
 
     // if the user is existed or not
     const existedUser = await User.findOne({
-        $or: [{ username }, { email }]
+        $or: [{ username }, { email }, { phonenumber}]
     })
 
     if (existedUser) {
@@ -67,7 +67,10 @@ const registerUser = async (req, res) => {
         username: username.toLowerCase(),
         email,
         password,
-        avatar: response.url
+        avatar: response.url,
+        firstname,
+        lastname,
+        phonenumber: phonenumber.toString()
     }).then((result) => {
         const user = result
         res.status(201).json({ data: user, message: "User created Successfully" })
