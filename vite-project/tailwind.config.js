@@ -8,6 +8,5 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [import("flowbite/plugin"),
-],
+  plugins: [import("flowbite/plugin")],
 }
