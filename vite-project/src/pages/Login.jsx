@@ -1,12 +1,16 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useState } from "react";
-//import { useNavigate} from "react-router-dom"
-//import { useDispath} from "react-redux"
+import { useNavigate} from "react-router-dom"
+import { useDispatch} from "react-redux"
+import axios from "axios"
+
+import { saveUserState } from "../redux/user/userSlicer.js";
 
 const Login = () =>
 
 {
-  //const dispatch = useDispath();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
@@ -27,6 +31,20 @@ const Login = () =>
       }
 
       setError("Loading....")
+      axios.defaults.withCredentials = true;
+
+      await axios.post("http://localhost:3000/api/v1/user/login", user).then((res) => {     
+       console.log(res.data)
+        setError(res.data.message)
+
+        dispatch(saveUserState(res.data.data))
+        navigate("/")
+      })
+      .catch((error) => {
+        console.log(error)
+        setError(error.message)
+
+      })
 
      }
   }
@@ -37,7 +55,7 @@ const Login = () =>
       <div className="mb-2 block">
           <Label htmlFor="Username" value="Username" />
         </div>
-        <TextInput id="Username" type="text" placeholder="Usernsmr" required onChange = {(e) => {
+        <TextInput id="Username" type="text" placeholder="Username" required onChange = {(e) => {
           setUsername(e.target.value) } } />
       </div>
 
@@ -72,6 +90,13 @@ const Login = () =>
        <div className="text-xl" >
                     Don't have an account? <a href="/register" className="text-blue-500">Register Here</a>
                 </div>
+
+                {
+                    error ?
+                        <div className="bg-red-500 text-white p-2 rounded">
+                            {error}
+                        </div> : ""
+                }
     </form>
   );
 }
