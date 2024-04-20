@@ -8,6 +8,7 @@ const Register = () => {
 
     const navigate = useNavigate()
 
+    const [error, setError] = useState("");
     const [avatar, setAvatar] = useState();
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
@@ -38,16 +39,16 @@ const Register = () => {
             formData.append('username', username);
             formData.append('email', email);
             formData.append('password', password);
-            formData.append('phoneNumber', phoneNumber);
-            formData.append('dateobirth', DateOfBirth);
+            formData.append('phonenumber', phoneNumber);
+            formData.append('dob', DateOfBirth);
             formData.append('companyname', companyName);
 
 
             const config = {
                 headers: {
-                  'content-type': 'multipart/form-data',
+                    'content-type': 'multipart/form-data',
                 },
-              };
+            };
 
             const response = await axios.post('http://localhost:3000/api/v1/user/register', formData, config);
             console.log('API Response:', response.data);
@@ -62,8 +63,8 @@ const Register = () => {
         }
     };
 
-   
-   
+
+
     return (
         <>
             <div className="w-[100%] flex flex-col items-center py-12">
@@ -83,12 +84,12 @@ const Register = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="First name" value="Your First name" />
                         </div>
-                        <TextInput id="First name" type="text" placeholder="First Name" value={firstname} onChange={(e) => setFirstname(e.target.value)}  />
+                        <TextInput id="First name" type="text" placeholder="First Name" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                     </div>
 
 
-                     {/* Last name*/}
-                     <div className="w-3/5 mb-4">
+                    {/* Last name*/}
+                    <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
                             <Label htmlFor="Last name" value="Your Last name" />
                         </div>
@@ -128,24 +129,24 @@ const Register = () => {
                         <TextInput id="confirmPassword" type="password" placeholder="Must Be same as upper" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                     </div>
 
-                     {/* Phone no. */}
-                     <div className="w-3/5 mb-4">
+                    {/* Phone no. */}
+                    <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
                             <Label htmlFor="phoneNumber" value="Your Phone Number" />
                         </div>
                         <TextInput id="phoneNumber" type="phoneNumber" placeholder="+91 5416625431" required value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
                     </div>
 
-                     {/* DOB */}
-                     <div className="w-3/5 mb-4">
+                    {/* DOB */}
+                    <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
                             <Label htmlFor="DateOfBirth" value="Your Date of Birth" />
                         </div>
-                        <TextInput id="DateOfBirth" type="DateOfBirth" placeholder="03/09/2002" required value={DateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
+                        <TextInput id="DateOfBirth" type="date" placeholder="03/09/2002" required value={DateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
                     </div>
 
-                     {/* Confirm Password */}
-                     <div className="w-3/5 mb-4">
+                    {/* Confirm Password */}
+                    <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
                             <Label htmlFor="companyName" value="Your Company Name" />
                         </div>
@@ -154,14 +155,14 @@ const Register = () => {
 
                     {/* Submit Button */}
                     <div className="w-3/5">
-                    <Button  gradientDuoTone="purpleToPink" type="submit" >
-                     Register
-                       </Button>
+                        <Button gradientDuoTone="purpleToPink" type="submit"  >
+                            Register
+                        </Button>
                     </div>
-                   
+
                 </form>
-                </div>
-            
+            </div>
+
         </>
     );
 };

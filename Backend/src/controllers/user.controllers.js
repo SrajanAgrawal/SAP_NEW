@@ -110,6 +110,7 @@ const loginUser = async (req, res) => {
     // generate tokens and store in the cookies
     const { accessToken, refreshToken } = await getAccessAndRefreshToken(existedUser._id);
 
+    existedUser.password = undefined; // to remove the password from the response
     // cookies can only be changed or updated by server 
     const options = {
         httpOnly: true,

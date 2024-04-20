@@ -9,7 +9,7 @@ const Header = ()=>
      <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">CareerCorps Student Ambassdor</span>
       </Navbar.Brand>
       <div className="flex md:order-2">
-      <Button gradientDuoTone="purpleToPink">Log IN</Button>
+      <Button gradientDuoTone="purpleToPink" href="/login">Log IN</Button>
 
         <Navbar.Toggle />
       </div>
