@@ -15,7 +15,7 @@ export const addNewEvent = async (req,res) => {
 
    var response = ""
    if(req.file){
-    const filePath = req.file.originalname;
+    const filePath = req.file.originalname
     response = await uploadFileOnCloudinary(`\public\\temp\\${filePath}`)
     console.log(response)
 

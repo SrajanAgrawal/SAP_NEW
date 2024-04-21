@@ -13,19 +13,18 @@ const Login = () =>
   const navigate = useNavigate();
 
   const [error, setError] = useState("");
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLoginUser = async (e) => {
     e.preventDefault()
-    if (email === "" || password === "" || username === "") {
+    if (email === "" || password === "" ) {
       setError("Please fill all fields")
      }
 
      else {
       const user = {
-        username : username,
+       
         email : email,
         password : password
       }
@@ -51,14 +50,7 @@ const Login = () =>
 
   return (
     <form className="w-[100%] flex flex-col items-center py-12">
-      <div className="w-3/5 mb-4">
-      <div className="mb-2 block">
-          <Label htmlFor="Username" value="Username" />
-        </div>
-        <TextInput id="Username" type="text" placeholder="Username" required onChange = {(e) => {
-          setUsername(e.target.value) } } />
-      </div>
-
+    
 
         
         <div className="w-3/5 mb-4">
