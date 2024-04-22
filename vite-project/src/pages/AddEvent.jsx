@@ -12,11 +12,11 @@ const AddEvents = () => {
     const [thumbnail, setThumbnail] = useState();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [organizedBY, setOrganizedBY] = useState("");
-    const [eventCategory, setEventCategory] = useState("");
+    //const [organizedBY, setOrganizedBY] = useState("");
+    const [eventCategory, setEventCategory] = useState(""); // use multiple select
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("")
-    const [date, setDate] = useState("");
+  //  const [date, setDate] = useState("");
     const [state, setState] = useState("");
     const [city, setCity] = useState("");
     const [mode, setModes] = useState("");
@@ -33,10 +33,10 @@ const AddEvents = () => {
         console.log(city);
         console.log(state);
         console.log(mode);
-        console.log(date);
+        //console.log(date);
         console.log(eventCategory);
         console.log(thumbnail);
-        console.log(organizedBY);
+        //console.log(organizedBY);
       //  console.log(thumbnail);
         console.log('====================================');
 
@@ -47,8 +47,8 @@ const AddEvents = () => {
             formData.append('thumbnail', thumbnail);
             formData.append('title', title);
             formData.append('description', description);
-            formData.append('organizedBy', organizedBy);
-            formData.append('eventsCategory', eventsCategory);
+           // formData.append('organizedBy', organizedBy);
+            formData.append('eventsCategory', eventCategory);
             formData.append('date', date);
             formData.append('startTime', startTime);
             formData.append('endTime', endTime);
@@ -85,7 +85,7 @@ const AddEvents = () => {
                     {/* upload file - thumbnail*/}
                     <div className="mb-4 w-3/5">
                         <div>
-                            <Label htmlFor="thumbnail" value="Upload Your Thumbnail" />
+                            <Label htmlFor="thumbnail" value="Upload Event Thumbnail" />
                         </div>
                         <FileInput id="thumbnail" sizing="lg" onChange={(e) => setThumbnail(e.target.files[0])} />
                     </div>
@@ -104,17 +104,17 @@ const AddEvents = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="description " value="Description  " />
                         </div>
-                        <TextInput id="description " type="text" placeholder="Description " value={Description} onChange={(e) => setDescription(e.target.value)} />
+                        <TextInput id="description " type="text" placeholder="Description " value={description} onChange={(e) => setDescription(e.target.value)} />
                     </div>
 
 
                     {/*  organizedBY */}
-                    <div className="w-3/5 mb-4">
+                    {/* <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
                             <Label htmlFor="organizedBY" value="Event Organized BY" />
                         </div>
                         <TextInput id="organizedBY" type="text" placeholder="Organized BY" value={organizedBY} onChange={(e) => setOrganizedBY(e.target.value)} />
-                    </div>
+                    </div> */}
 
                     {/* Event category */}
                     <div className="w-3/5 mb-4">
@@ -129,24 +129,24 @@ const AddEvents = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="startTime" value="Event Start Time " />
                         </div>
-                        <TextInput id="startTime" type="date" placeholder="Start- Time" required value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+                        <TextInput id="startTime" type="datetime-local" placeholder="Start- Time" required value={startTime} onChange={(e) => setStartTime(e.target.value)} />
                     </div>
 
                     {/* endTime  */}
                     <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
-                            <Label htmlFor="endTime" value="EVent End Time " />
+                            <Label htmlFor="endTime" value="Event End Time " />
                         </div>
-                        <TextInput id="endTime" type="date" placeholder="End-Time" required value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+                        <TextInput id="endTime" type="datetime-local" placeholder="End-Time" required value={endTime} onChange={(e) => setEndTime(e.target.value)} />
                     </div>
 
                     {/* date */}
-                    <div className="w-3/5 mb-4">
+                    {/* <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
                             <Label htmlFor="date" value="Date of Event" />
                         </div>
                         <TextInput id="date" type="date" placeholder="" required value={date} onChange={(e) => setDate(e.target.value)} />
-                    </div>
+                    </div> */}
 
                     {/* country */}
                     <div className="w-3/5 mb-4">

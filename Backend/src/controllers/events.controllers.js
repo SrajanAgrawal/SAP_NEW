@@ -11,7 +11,7 @@ export const addNewEvent = async (req,res) => {
    // required fields
 
 
-   if(!req.body.title || !req.body.date || !req.body.thumbnail || !req.body.startTime || !req.body.endTime
+   if(!req.body.title || !req.body.thumbnail || !req.body.startTime || !req.body.endTime
     || !req.body.organizedBy || !req.body.mode || !req.body.city || !req.body.state ||!req.body.country || !req.body.eventsCategory)
     {
     return res.status(400).json({message : 'Please provide all required field'});
@@ -32,12 +32,12 @@ export const addNewEvent = async (req,res) => {
    const newEvent = new Event ({
     ...req.body,
     thumbnail: response,
-    userID: req.user.id,
+    organizedBy: req.user.id,
     
    });
    try {
     const saveEvent = await newEvent.save();
-    res.status(201).json(saveEvent);
+    res.status(201).json({data: saveEvent, success: true});
    }
    catch (error){
     console.log(`Add event error ${error}`)

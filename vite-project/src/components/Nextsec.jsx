@@ -14,10 +14,11 @@ const Nextsec = () => {
   ]
   return (
     
-    <form className='className="flex flex-row justify-center w-[50%] m-auto my-10'>
+    <form className='flex flex-row justify-between w-[60%] m-auto my-10'>
 
       {/*Mode Option*/}
       <div className='w-[30%]'>
+        <Label htmlFor="Mode" value="Mode"/>
     <Select options={options} defaultValue={value} placeholder="Mode" onChange={setValue} />
    </div>
      

@@ -35,15 +35,17 @@ const eventSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true
+        
     },
     startTime: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now()
     },
     endTime: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now()
     },
     tags: [{
         type: String
