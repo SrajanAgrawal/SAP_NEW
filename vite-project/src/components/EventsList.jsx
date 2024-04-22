@@ -2,7 +2,9 @@
 
 const EventsList = () => {
   return (
-    <div>EventsList</div>
+    <div>
+      <h1>event</h1>
+    </div>
   )
 }
 

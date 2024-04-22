@@ -6,7 +6,7 @@ import verifyJWT from "../middlewares/auth.middleware.js";
 const router = Router();
 
 // Route to add a new event
-router.route("/addEvent").post(upload.single("thumbnail"), addNewEvent)
+router.route("/addNewEvent").post(upload.single("thumbnail"), addNewEvent)
 
 // Route to add images to an event
 router.route("/addeventImages").post(verifyJWT, addEventImages)

@@ -9,7 +9,11 @@ export const addNewEvent = async (req,res) => {
     return res.status(401).json({message: "You are not authorized"});
    }
    // required fields
-   if(!req.body.title || !req.body.date || !req.body.thumbnail || !req.body.startTime || !req.body.endTime){
+
+
+   if(!req.body.title || !req.body.date || !req.body.thumbnail || !req.body.startTime || !req.body.endTime
+    || !req.body.organizedBy || !req.body.mode || !req.body.city || !req.body.state ||!req.body.country || !req.body.eventsCategory)
+    {
     return res.status(400).json({message : 'Please provide all required field'});
    }
 
@@ -28,7 +32,8 @@ export const addNewEvent = async (req,res) => {
    const newEvent = new Event ({
     ...req.body,
     thumbnail: response,
-    userID: req.user.id
+    userID: req.user.id,
+    
    });
    try {
     const saveEvent = await newEvent.save();
