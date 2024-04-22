@@ -42,7 +42,7 @@ const Header = ()=>
                                     <span className="block truncate text-sm font-medium">{user.email}</span>
                                 </Dropdown.Header>
                                 <Dropdown.Item>Dashboard</Dropdown.Item>
-                                <Dropdown.Item>Upload Post</Dropdown.Item>
+                                <Dropdown.Item>Upload Events</Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>
                             </Dropdown>) :
