@@ -1,48 +1,47 @@
 import { Event } from '../models/events.models.js';
 import { uploadFileOnCloudinary } from '../utils/cloudinary.js';
+import {faker} from '@faker-js/faker'
 
+export const addNewEvent = async (req, res) => {
 
-export const addNewEvent = async (req,res) => {
-
-  // if there is no user in the request then do not allow the user to add event
-  if(!req.user){
-    return res.status(401).json({message: "You are not authorized"});
-   }
-   // required fields
-
-
-   if(!req.body.title || !req.body.thumbnail || !req.body.startTime || !req.body.endTime
-    || !req.body.organizedBy || !req.body.mode || !req.body.city || !req.body.state ||!req.body.country || !req.body.eventsCategory)
-    {
-    return res.status(400).json({message : 'Please provide all required field'});
-   }
-
-   var response = ""
-   if(req.file){
-    const filePath = req.file.originalname
-    response = await uploadFileOnCloudinary(`\public\\temp\\${filePath}`)
-    console.log(response)
-
-    if(!response.url) {
-        return res.status(500).json({message : "Please upload the image " })
+    // if there is no user in the request then do not allow the user to add event
+    if (!req.user) {
+        return res.status(401).json({ message: "You are not authorized" });
     }
-    response = response.url
-   }
+    // required fields
 
-   const newEvent = new Event ({
-    ...req.body,
-    thumbnail: response,
-    organizedBy: req.user.id,
-    
-   });
-   try {
-    const saveEvent = await newEvent.save();
-    res.status(201).json({data: saveEvent, success: true});
-   }
-   catch (error){
-    console.log(`Add event error ${error}`)
-    res.status(500).json({ message: 'Internal Server Error' });
-   }
+
+    if (!req.body.title || !req.body.thumbnail || !req.body.startTime || !req.body.endTime
+        || !req.body.organizedBy || !req.body.mode || !req.body.city || !req.body.state || !req.body.country || !req.body.eventsCategory) {
+        return res.status(400).json({ message: 'Please provide all required field' });
+    }
+
+    var response = ""
+    if (req.file) {
+        const filePath = req.file.originalname
+        response = await uploadFileOnCloudinary(`\public\\temp\\${filePath}`)
+        console.log(response)
+
+        if (!response.url) {
+            return res.status(500).json({ message: "Please upload the image " })
+        }
+        response = response.url
+    }
+
+    const newEvent = new Event({
+        ...req.body,
+        thumbnail: response,
+        organizedBy: req.user.id,
+
+    });
+    try {
+        const saveEvent = await newEvent.save();
+        res.status(201).json({ data: saveEvent, success: true });
+    }
+    catch (error) {
+        console.log(`Add event error ${error}`)
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
 
 }
 
@@ -88,63 +87,86 @@ export const addEventImages = async (req, res) => {
 
 //search event by query
 
-export const searchEvents = async (req,res) => {
+export const searchEvents = async (req, res) => {
     try {
         const startIndex = parseInt(req.query.startIndex) || 0;
+        console.log(startIndex)
         const limit = parseInt(req.query.limit) || 9;
+        console.log(limit)
         const sortDirection = req.query.order === 'asc' ? 1 : -1;
-
-         const events = await Event.find({
-            ...(req.query.userId && { userId : req.query.userID}),
-            ...(req.query.eventId && { eventId : req.query.eventID}),
-            ...(req.query.date && { date : req.query.date}),
-            ...(req.query.startTime && { startTime : req.query.startTime}),
-            ...(req.query.endTime && { endTime : req.query.endTime}),
-            ...(req.query.city && { city : req.query.city}),
-            ...(req.query.state && { state : req.query.state}),
-            ...(req.query.country && { country : req.query.country}),
+        console.log(sortDirection)
+        console.log(req.query);
+        const events = await Event.find({
+            ...(req.query.userId && { organizedBy: req.query.userID }),
+            ...(req.query.eventId && { _id: req.query.eventID }),
+            ...(req.query.startTime && { startTime: req.query.startTime }),
+            ...(req.query.endTime && { endTime: req.query.endTime }),
+            ...(req.query.city && { city: req.query.city }),
+            ...(req.query.state && { state: req.query.state }),
+            ...(req.query.country && { country: req.query.country }),
+            ...(req.query.mode && { mode: req.query.mode }),
             ...(req.query.searchTerm && {
-                $or:[
-                    {title: {$regex: req.query.searchTerm, $options: 'i'}},
-                    {description: {$regex: req.query.searchTerm, $options: 'i'}},
-                    {eventsCategory: {$regex: req.query.searchTerm, $options: 'i'}},
+                $or: [
+                    { title: { $regex: req.query.searchTerm, $options: 'i' } },
+                    { description: { $regex: req.query.searchTerm, $options: 'i' } },
+                    { eventsCategory: { $regex: req.query.searchTerm, $options: 'i' } },
                 ]
             })
-         })
+        }).sort({ updateAt: sortDirection })
+            .skip(startIndex)
+            .limit(limit);
 
-        .sort({ updateAt: sortDirection})
-        .skip(startIndex)
-        .limit(limit);
-   
-
-        const totalEvents = await Event.countDocuments();
-        const now = new Date();
-        const oneMonthAgo = new Date(
-            now.getFullYear(),
-            now.getMonth() -1,
-            now.getDate()
-        );
-
-        const lastMonthEvents = await Event.countDocuments({
-            createAt: { $gte: oneMonthAgo},
-        });
+        console.log(events);
+        const totalEvents = await events.countDocuments();
+        console.log(totalEvents)
+        
 
         res.status(200).json({
             events,
             totalEvents,
-            lastMonthEvents
         });
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Internal Server Error' });
+
+    }
 }
-  catch (error) {
-    res.status(500).json({ message: 'Internal Server Error' });
 
-  }
+
+
+export const generateRandomEventsData = async (req, res) => {
+
+    try {
+        const events = [];
+        for (let i = 0; i < 10; i++) {
+            const newEvent = new Event({
+                title: faker.lorem.words(),
+                description: faker.lorem.sentence(),
+                thumbnail: faker.image.urlPlaceholder(),
+                startTime: faker.date.recent(),
+                endTime: faker.date.future(),
+                organizedBy: faker.Number.int(),
+                mode: faker.Helpers.arrayElement(['online', 'in-person', 'hybrid']),
+                city: faker.Location.city(),
+                state: faker.Location.state(),
+                country: 'India',
+                eventsCategory: faker.Helpers.arrayElement(["Web Development", "Mobile App Development", "Graphics Design",
+                "Robotics", "Artificial Intelligence (AI)", "Cybersecurity", "Data Science and Analytics",
+                "Blockchain and Cryptocurrency", "Internet of Things (IoT)", "Game Development",
+                "Digital Marketing", "Entrepreneurship and Startup", "Virtual Reality (VR) and Augmented Reality (AR)",
+                "Soft Skills Development", "Career Development", "Resume Development", "Website Hosting",
+                "GitHub", "Deployment Strategies", "Authentication Methods"]),
+            });
+            events.push(newEvent);
+        }
+
+        await Event.insertMany(events);
+        res.status(201).json({ message: "Events data generated successfully" });
+    } catch (error) {
+        console.error("Error generating events data:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
 }
-
-
-
-
-
 
 
 
