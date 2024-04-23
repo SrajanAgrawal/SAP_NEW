@@ -1,7 +1,9 @@
-import { Label, FileInput, TextInput, Button, Select } from "flowbite-react";
+import { Label, FileInput, TextInput, Button} from "flowbite-react";
 import { useState } from "react";
 
-import axios from "axios";
+import axios from "axios"
+import  Select  from 'react-select'
+
 
 
 const AddEvents = () => {
@@ -21,6 +23,32 @@ const AddEvents = () => {
     const [city, setCity] = useState("");
     const [mode, setModes] = useState("");
 
+
+
+    const eventOptions = [
+        { value: 'Web Development', label: 'Web Development' },
+        { value: 'Mobile App Development', label: 'Mobile App Development' },
+        { value: 'Graphics Design', label: 'Graphics Design' },
+        { value: 'Robotics', label: 'Robotics' },
+        { value: 'Artificial Intelligence (AI)', label: 'Artificial Intelligence (AI)' },
+        { value: 'Cybersecurity', label: 'Cybersecurity' },
+        { value: 'Data Science and Analytics', label: 'Data Science and Analytics' },      
+        { value: 'Blockchain and Cryptocurrency', label: 'Blockchain and Cryptocurrency' },
+        { value: 'Internet of Things (IoT)', label: 'Internet of Things (IoT)' },
+        { value: 'Game Development', label: 'Game Development' },
+        { value: 'Digital Marketing', label: 'Digital Marketing' },
+        { value: 'Entrepreneurship and Startup', label: 'Entrepreneurship and Startup' },
+        { value: 'Virtual Reality (VR) and Augmented Reality (AR)', label: 'Virtual Reality (VR) and Augmented Reality (AR)' },
+        { value: 'Soft Skills Development', label: 'Soft Skills Development' },
+        { value: 'Career Development', label: 'Career Development' },
+        { value: 'Resume Development', label: 'Resume Development' },
+        { value: 'Website Hosting', label: 'Website Hosting' },
+        { value: 'GitHub', label: 'GitHub' },
+        { value: 'Deployment Strategies', label: 'Deployment Strategies' },
+        { value: 'Authentication Methods', label: 'Authentication Methods' },
+       
+
+    ];
 
 
     const handleSubmit = async (e) => {
@@ -116,13 +144,19 @@ const AddEvents = () => {
                         <TextInput id="organizedBY" type="text" placeholder="Organized BY" value={organizedBY} onChange={(e) => setOrganizedBY(e.target.value)} />
                     </div> */}
 
+                  
                     {/* Event category */}
-                    <div className="w-3/5 mb-4">
-                        <div className="mb-2 block">
-                            <Label htmlFor="eventcategory" value="Event Category " />
-                        </div>
-                        <TextInput id="eventcategory" type="text" placeholder="Category" required value={eventCategory} onChange={(e) => setEventCategory(e.target.value)} />
-                    </div>
+                     <div className="w-3/5 mb-4">
+                    <Label htmlFor="eventCategory" value="Event Category" />
+                    <Select
+                        id="eventCategory"
+                        options={eventOptions}
+                        isMulti
+                        value={eventCategory}
+                        onChange={setEventCategory}
+                    />
+                </div>
+
 
                     {/* startTime */}
                     <div className="w-3/5 mb-4">
