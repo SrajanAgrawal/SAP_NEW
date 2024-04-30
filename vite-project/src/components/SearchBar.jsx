@@ -1,396 +1,126 @@
-import React, { useState } from "react";
-import { Button, TextInput } from "flowbite-react";
+// import { useNavigate } from 'react-router-dom';
+import { citiesArray } from "../constants/citiesArray.js"
+import { statesArray } from "../constants/statesArray.js"
+import { useState } from 'react';
+import axios from "axios"
+import EventCard from "./EventCard.jsx";
+
+
+import { Datepicker, Label } from 'flowbite-react'
+
+import  Select  from 'react-select'
 
 const SearchBar = () => {
-    const [search, setSearch] = useState('');
-    const [filteredCities, setFilteredCities] = useState([]);
 
 
-    const indianStates = [
-        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-        "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
-        "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
-        "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
-        "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
-        "Uttar Pradesh", "Uttarakhand", "West Bengal"
-    ];
 
-    const indianCities = [
-        "Mumbai", "Delhi", "Bangalore", "Kolkata", "Chennai",
-        "Hyderabad", "Ahmedabad", "Pune", "Surat", "Jaipur",
-        "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane",
-        "Bhopal", "Visakhapatnam", "Pimpri-Chinchwad", "Patna", "Vadodara",
-        "Ghaziabad", "Ludhiana", "Agra", "Nashik", "Faridabad",
-        "Meerut", "Rajkot", "Kalyan-Dombivali", "Vasai-Virar", "Varanasi",
-        "Srinagar", "Aurangabad", "Dhanbad", "Amritsar", "Navi Mumbai",
-        "Allahabad", "Ranchi", "Haora", "Coimbatore", "Jabalpur",
-        "Gwalior", "Vijayawada", "Jodhpur", "Madurai", "Raipur",
-        "Kota", "Guwahati", "Chandigarh", "Solapur", "Hubli-Dharwad",
-        "Bareilly", "Moradabad", "Mysore", "Gurgaon", "Aligarh",
-        "Jalandhar", "Tiruchirappalli", "Bhubaneswar", "Salem", "Warangal",
-        "Guntur", "Bhiwandi", "Saharanpur", "Gorakhpur", "Bikaner",
-        "Amravati", "Noida", "Jamshedpur", "Bhilai", "Cuttack",
-        "Firozabad", "Kochi", "Nellore", "Bhavnagar", "Dehradun",
-        "Durgapur", "Asansol", "Rourkela", "Nanded", "Kolhapur",
-        "Ajmer", "Akola", "Gulbarga", "Jamnagar", "Ujjain",
-        "Loni", "Siliguri", "Jhansi", "Ulhasnagar", "Jammu",
-        "Sangli-Miraj & Kupwad", "Mangalore", "Erode", "Belgaum", "Ambattur",
-        "Tirunelveli", "Malegaon", "Gaya", "Jalgaon", "Udaipur",
-        "Maheshtala", "Davanagere", "Kozhikode", "Akbarpur", "Shahjahanpur",
-        "Kurnool", "Rajpur Sonarpur", "Rajahmundry", "Bokaro Steel City", "South Dumdum",
-        "Bellary", "Patiala", "Gopalpur", "Agartala", "Bhagalpur",
-        "Muzaffarnagar", "Bhatpara", "Panihati", "Latur", "Dhule",
-        "Rohtak", "Korba", "Bhilwara", "Berhampur", "Muzaffarpur",
-        "Ahmednagar", "Mathura", "Kollam", "Avadi", "Kadapa",
-        "Anantapur", "Kamarhati", "Bilaspur", "Sambalpur", "Shimoga",
-        "Brajrajnagar", "Gandhinagar", "Hospet", "Nizamabad", "Kulti",
-        "Etawah", "Barasat", "Tirupati", "Bijapur", "Serampore",
-        "Hapur", "Ratlam", "Anantapur", "Thanjavur", "Rewa",
-        "Katihar", "Nagercoil", "Sambhal", "Durg", "Khammam",
-        "Bilaspur", "Shahjanpur", "Satara", "Bijapur", "Rampur",
-        "Shivamogga", "Chandrapur", "Junagadh", "Thrissur", "Alwar",
-        "Bardhaman", "Kulti", "Kakinada", "Nizamabad", "Parbhani",
-        "Tumkur", "Khammam", "Ozhukarai", "Bihar Sharif", "Panipat",
-        "Darbhanga", "Bally", "Aizawl", "Dewas", "Ichalkaranji",
-        "Karnal", "Bathinda", "Jalna", "Eluru", "Kirari Suleman Nagar",
-        "Barasat", "Purnia", "Satna", "Mau", "Sonipat",
-        "Farrukhabad", "Sagar", "Rourkela", "Durgapur", "Imphal",
-        "Ratnagiri", "Hapur", "Arrah", "Karimnagar", "Anantapur",
-        "Etah", "Ambarnath", "North Dumdum", "Bharatpur", "Begusarai",
-        "New Delhi", "Gandhidham", "Baranagar", "Tiruvottiyur", "Pondicherry",
-        "Sikar", "Thoothukudi", "Rewa", "Mirzapur", "Raichur",
-        "Pali", "Ramagundam", "Haridwar", "Vijayanagaram", "Tenali",
-        "Nagercoil", "Sri Ganganagar", "Karawal Nagar", "Mango", "Thanjavur",
-        "Bulandshahr", "Uluberia", "Katni", "Sambalpur", "Singrauli",
-        "Nadiad", "Secunderabad", "Naihati", "Yamunanagar", "Bidar",
-        "Pallavaram", "Bidhan Nagar", "Kharagpur", "Chittoor", "Rae Bareli",
-        "Vizianagaram", "Katihar", "Hardoi", "Giridih", "Vasco da Gama",
-        "Kozhikode", "Bhimavaram", "Ongole", "Bulandshahr", "Jind",
-        "Tenali", "Bidar", "Hapur", "Hosur", "Deoli",
-        "Navsari", "Pudukkottai", "Sirsa", "Modinagar", "Kadapa",
-        "Shivpuri", "Robertsonpet", "Dharwad", "Allahabad", "Alappuzha",
-        "Kottayam", "Karaikudi", "Satna", "Kishanganj", "Saharsa",
-        "Hindupur", "Rayachoti", "Kuppam", "Guntakal", "Suryapet",
-        "Guntur", "Proddatur", "Chittoor", "Guntakal", "Adoni",
-        "Chirala", "Bapatla", "Rajampet", "Tenali", "Bhimavaram",
-        "Srikakulam", "Madanapalle", "Tadpatri", "Tadepalligudem", "Narasaraopet",
-        "Rajahmundry", "Nandyal", "Ongole", "Hindupur", "Bhagalpur",
-        "Arrah", "Begusarai", "Khalilabad", "Buxar", "Bagaha",
-        "Khagaria", "Chhapra", "Motihari", "Pilibhit", "Hajipur",
-        "Siwan", "Kishanganj", "Dehri", "Jamalpur", "Sitamarhi",
-        "Jehanabad", "Aurangabad", "Buxar", "Kishanganj", "Siwan",
-        "Motihari", "Nawada", "Bagaha", "Buxar", "Lakhisarai",
-        "Jamalpur", "Sitamarhi", "Saharsa", "Baruni", "Sheikhpura",
-        "Jamui", "Mokama", "Danapur", "Chandauli", "Mughalsarai",
-        "Kasganj", "Maharajganj", "Panchkula", "Malerkotla", "Karnal",
-        "Muktsar", "Rajpura", "Sangrur", "Firozpur", "Ropar",
-        "Pala", "Palakkad", "Thiruvananthapuram", "Malappuram", "Kochi",
-        "Kozhikode", "Alappuzha", "Thrissur", "Kottayam", "Kannur",
-        "Kollam", "Thalassery", "Kottakkal", "Thiruvalla", "Neyyattinkara",
-        "Nagpur", "Pune", "Nashik", "Vasai-Virar", "Aurangabad",
-        "Solapur", "Bhiwandi", "Amravati", "Malegaon", "Kolhapur",
-        "Nanded", "Sangli-Miraj & Kupwad", "Jalgaon", "Akola", "Latur",
-        "Dhule", "Ahmednagar", "Chandrapur", "Parbhani", "Ichalkaranji",
-        "Jalna", "Bhusawal", "Navi Mumbai", "Panvel", "Satara",
-        "Beed", "Wardha", "Udgir", "Hinganghat", "Gondia",
-        "Yavatmal", "Washim", "Barshi", "Basmat", "Kamthi",
-        "Mumbai", "Buldana", "Hingoli", "Achalpur", "Osmanabad",
-        "Nandurbar", "Parli", "Wani", "Amalner", "Ratnagiri",
-        "Ahmedpur", "Aurangabad", "Deglur", "Umarga", "Pandharpur",
-        "Shirpur-Warwade", "Malkapur", "Anjangaon", "Pusad", "Nilanga",
-        "Murtijapur", "Manmad", "Pandharkaoda", "Sillod", "Shrirampur",
-        "Patur", "Washim", "Shirpur-Warwade", "Shendurjana", "Mangrulpir",
-        "Nandura", "Mul", "Manjlegaon", "Soyagaon", "Mukhed",
-        "Khamgaon", "Manwath", "Risod", "Loha", "Lonar",
-        "Pathri", "Pauni", "Partur", "Yawal", "Raver",
-        "Yevla", "Vita", "Uran", "Umarkhed", "Warud",
-        "Tuljapur", "Tasgaon", "Thul", "Tirora", "Tirora",
-        "Tiroda", "Tumsar", "Uchgaon", "Umarkhed", "Vadgaon",
-        "Vaijapur", "Vasai-Virar", "Virar", "Wai", "Wani",
-        "Wardha", "Warora", "Warud", "Washim", "Yavatmal",
-        "Yawal", "Yeola", "Imphal", "Thoubal", "Lilong",
-        "Churachandpur", "Mayang Imphal", "Kakching", "Nambol", "Lamka",
-        "Lilong", "Jiribam", "Kwakta", "Ningthoukhong", "Moirang",
-        "Nongstoin", "Nongpoh", "Tura", "Shillong", "Williamnagar",
-        "Mokokchung", "Zunheboto", "Wokha", "Tuensang", "Mon",
-        "Kohima", "Phek", "Chumukedima", "Dimapur", "Naginimora",
-        "Bhandara", "Chandrapur", "Gondiya", "Nagbhid", "Tumsar",
-        "Amalner", "Arvi", "Aurangabad", "Bhiwapur", "Chandrapur",
-        "Chandur", "Digras", "Gondiya", "Kamthi", "Karanja",
-        "Kinwat", "Manwath", "Nagbhid", "Nagpur", "Ramtek",
-        "Ratnagiri", "Sailu", "Shirpur-Warwade", "Shirur", "Thane",
-        "Uran", "Wani", "Wardha", "Warora", "Warud",
-        "Yeotmal", "Ambejogai", "Anjangaon", "Balapur", "Barshi",
-        "Basmath", "Bhandara", "Bhokardan", "Bhoom", "Bhusawal",
-        "Biloli", "Buldana", "Butibori", "Chalisgaon", "Chandrapur",
-        "Chandur", "Chandvad", "Deoli", "Deulgaon Raja", "Dharni",
-        "Digras", "Dindori", "Georai", "Ghatanji", "Gondiya",
-        "Goregaon", "Hinganghat", "Hingoli", "Hingua", "Ichalkaranji",
-        "Jalgaon", "Jalna", "Jamner", "Kalamnuri", "Kallam",
-        "Kalmeshwar", "Kalyan", "Kamthi", "Karanja", "Karjat",
-        "Karmala", "Katol", "Khadki", "Khamgaon", "Khapa",
-        "Khed", "Kinwat", "Kopargaon", "Kurkheda", "Lanja",
-        "Lasalgaon", "Latur", "Lonar", "Lonavla", "Madha",
-        "Mahabaleshwar", "Mahad", "Mahagaon", "Mahalingpur", "Maihar",
-        "Malegaon", "Malkapur", "Manchar", "Mangalvedhe", "Mangrulpir",
-        "Manjlegaon", "Manmad", "Manwath", "Maregaon", "Mehkar",
-        "Mhasla", "Mhaswad", "Mira-Bhayandar", "Morshi", "Mouda",
-        "Mukhed", "Mul", "Mumbai", "Murtijapur", "Nachane",
-        "Nagapur", "Nagbhir", "Nagpur", "Nalasopara", "Nanded",
-        "Nandgaon", "Nandura", "Nandurbar", "Narkhed", "Nashik",
-        "Navapur", "Navi Mumbai", "Nawapur", "Nilanga", "Osmanabad",
-        "Ozar", "Pachora", "Paithan", "Palghar", "Pandharkaoda",
-        "Pandharpur", "Panvel", "Paratwada", "Parbhani", "Parli",
-        "Parola", "Partur", "Pathardi", "Pathri", "Patur",
-        "Pauni", "Pen", "Phaltan", "Pulgaon", "Pune",
-        "Purna", "Pusad", "Rahimatpur", "Rahta Pimplas", "Rahuri",
-        "Rajura", "Ramtek", "Ratnagiri", "Raver", "Risod",
-        "Sailu", "Sangamner", "Sangli", "Sangole", "Sasvad",
-        "Satana", "Satara", "Savner", "Sawantwadi", "Shahada",
-        "Shegaon", "Shendurjana", "Shirdi", "Shirpur-Warwade", "Shirur",
-        "Shirpur-Warwade", "Shirur", "Shrigonda", "Shrirampur", "Sillod",
-        "Sinnar", "Solapur", "Soyagaon", "Talegaon Dabhade", "Talode",
-        "Tasgaon", "Tirora", "Tirora", "Tuljapur", "Tumsar",
-        "Uchgaon", "Udgir", "Umarga", "Umarkhed", "Umred",
-        "Uran", "Uran Islampur", "Umarkhed", "Vadgaon", "Vaijapur",
-        "Vasai-Virar", "Virar", "Vita", "Wadgaon Road", "Wai",
-        "Wani", "Wardha", "Warora", "Warud", "Washim",
-        "Yavatmal", "Yawal", "Yevla", "Yeotmal", "Yeola",
-        "Zari-Jamani", "Alirajpur", "Anuppur", "Ashok Nagar", "Balaghat",
-        "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur",
-        "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas",
-        "Dhar", "Guna", "Gwalior", "Harda", "Hoshangabad",
-        "Indore", "Itarsi", "Jabalpur", "Jhabua", "Katni",
-        "Khandwa", "Khargone", "Mandsaur", "Morena", "Murwara",
-        "Nagda", "Narsinghgarh", "Narsinghgarh", "Neemuch", "Nowrozabad",
-        "Panna", "Pithampur", "Raghogarh-Vijaypur", "Raisen", "Rajgarh",
-        "Ratlam", "Ratlam", "Rewa", "Sagar", "Satna",
-        "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur",
-        "Shivpuri", "Shujalpur", "Sidhi", "Singrauli", "Tikamgarh",
-        "Ujjain", "Umaria", "Vidisha", "Wara Seoni", "Ahmednagar",
-        "Akola", "Amravati", "Aurangabad", "Bhusawal", "Chandrapur",
-        "Dhule", "Jalgaon", "Latur", "Malegaon", "Mumbai",
-        "Nagpur", "Nanded", "Nashik", "Osmanabad", "Pune",
-        "Sangli", "Satara", "Solapur", "Ulhasnagar", "Vasai-Virar",
-        "Yavatmal", "Imphal", "Thoubal", "Lilong", "Churachandpur",
-        "Mayang Imphal", "Kakching", "Nambol", "Lamka", "Lilong",
-        "Jiribam", "Kwakta", "Ningthoukhong", "Moirang", "Nongstoin",
-        "Nongpoh", "Tura", "Shillong", "Williamnagar", "Mokokchung",
-        "Zunheboto", "Wokha", "Tuensang", "Mon", "Kohima",
-        "Phek", "Chumukedima", "Dimapur", "Naginimora", "Bhandara",
-        "Chandrapur", "Gondiya", "Nagbhid", "Tumsar", "Amalner",
-        "Arvi", "Aurangabad", "Bhiwapur", "Chandrapur", "Chandur",
-        "Digras", "Gondiya", "Kamthi", "Karanja", "Kinwat",
-        "Manwath", "Nagbhid", "Nagpur", "Ramtek", "Ratnagiri",
-        "Sailu", "Shirpur-Warwade", "Shirur", "Thane", "Uran",
-        "Wani", "Wardha", "Warora", "Warud", "Yeotmal",
-        "Ambejogai", "Anjangaon", "Balapur", "Barshi", "Basmath",
-        "Bhandara", "Bhokardan", "Bhoom", "Bhusawal", "Biloli",
-        "Buldana", "Butibori", "Chalisgaon", "Chandrapur", "Chandur",
-        "Chandvad", "Deoli", "Deulgaon Raja", "Dharni", "Digras",
-        "Dindori", "Georai", "Ghatanji", "Gondiya", "Goregaon",
-        "Hinganghat", "Hingoli", "Hingua", "Ichalkaranji", "Jalgaon",
-        "Jalna", "Jamner", "Kalamnuri", "Kallam", "Kalmeshwar",
-        "Kalyan", "Kamthi", "Karanja", "Karjat", "Karmala",
-        "Katol", "Khadki", "Khamgaon", "Khapa", "Khed",
-        "Kinwat", "Kopargaon", "Kurkheda", "Lanja", "Lasalgaon",
-        "Latur", "Lonar", "Lonavla", "Madha", "Mahabaleshwar",
-        "Mahad", "Mahagaon", "Mahalingpur", "Maihar", "Malegaon",
-        "Malkapur", "Manchar", "Mangalvedhe", "Mangrulpir", "Manjlegaon",
-        "Manmad", "Manwath", "Maregaon", "Mehkar", "Mhasla",
-        "Mhaswad", "Mira-Bhayandar", "Morshi", "Mouda", "Mukhed",
-        "Mul", "Mumbai", "Murtijapur", "Nachane", "Nagapur",
-        "Nagbhir", "Nagpur", "Nalasopara", "Nanded", "Nandgaon",
-        "Nandura", "Nandurbar", "Narkhed", "Nashik", "Navapur",
-        "Navi Mumbai", "Nawapur", "Nilanga", "Osmanabad", "Ozar",
-        "Pachora", "Paithan", "Palghar", "Pandharkaoda", "Pandharpur",
-        "Panvel", "Paratwada", "Parbhani", "Parli", "Parola",
-        "Partur", "Pathardi", "Pathri", "Patur", "Pauni",
-        "Pen", "Phaltan", "Pulgaon", "Pune", "Purna",
-        "Pusad", "Rahimatpur", "Rahta Pimplas", "Rahuri", "Rajura",
-        "Ramtek", "Ratnagiri", "Raver", "Risod", "Sailu",
-        "Sangamner", "Sangli", "Sangole", "Sasvad", "Satana",
-        "Satara", "Savner", "Sawantwadi", "Shahada", "Shegaon",
-        "Shendurjana", "Shirdi", "Shirpur-Warwade", "Shirur", "Shirpur-Warwade",
-        "Shirur", "Shrigonda", "Shrirampur", "Sillod", "Sinnar",
-        "Solapur", "Soyagaon", "Talegaon Dabhade", "Talode", "Tasgaon",
-        "Tirora", "Tirora", "Tuljapur", "Tumsar", "Uchgaon",
-        "Udgir", "Umarga", "Umarkhed", "Umred", "Uran",
-        "Uran Islampur", "Umarkhed", "Vadgaon", "Vaijapur", "Vasai-Virar",
-        "Virar", "Vita", "Wadgaon Road", "Wai", "Wani",
-        "Wardha", "Warora", "Warud", "Washim", "Yavatmal",
-        "Yawal", "Yevla", "Yeotmal", "Yeola", "Zari-Jamani",
-        "Alirajpur", "Anuppur", "Ashok Nagar", "Balaghat", "Barwani",
-        "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur",
-        "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar",
-        "Guna", "Gwalior", "Harda", "Hoshangabad", "Indore",
-        "Itarsi", "Jabalpur", "Jhabua", "Katni", "Khandwa",
-        "Khargone", "Mandsaur", "Morena", "Murwara", "Nagda",
-        "Narsinghgarh", "Narsinghgarh", "Neemuch", "Nowrozabad", "Panna",
-        "Pithampur", "Raghogarh-Vijaypur", "Raisen", "Rajgarh", "Ratlam",
-        "Ratlam", "Rewa", "Sagar", "Satna", "Sehore",
-        "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri",
-        "Shujalpur", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain",
-        "Umaria", "Vidisha", "Wara Seoni", "Ahmednagar", "Akola",
-        "Amravati", "Aurangabad", "Bhusawal", "Chandrapur", "Dhule",
-        "Jalgaon", "Latur", "Malegaon", "Mumbai", "Nagpur",
-        "Nanded", "Nashik", "Osmanabad", "Pune", "Sangli",
-        "Satara", "Solapur", "Ulhasnagar", "Vasai-Virar", "Yavatmal",
-        "Imphal", "Thoubal", "Lilong", "Churachandpur", "Mayang Imphal",
-        "Kakching", "Nambol", "Lamka", "Lilong", "Jiribam",
-        "Kwakta", "Ningthoukhong", "Moirang", "Nongstoin", "Nongpoh",
-        "Tura", "Shillong", "Williamnagar", "Mokokchung", "Zunheboto",
-        "Wokha", "Tuensang", "Mon", "Kohima", "Phek",
-        "Chumukedima", "Dimapur", "Naginimora", "Bhandara", "Chandrapur",
-        "Gondiya", "Nagbhid", "Tumsar", "Amalner", "Arvi",
-        "Aurangabad", "Bhiwapur", "Chandrapur", "Chandur", "Digras",
-        "Gondiya", "Kamthi", "Karanja", "Kinwat", "Manwath",
-        "Nagbhid", "Nagpur", "Ramtek", "Ratnagiri", "Sailu",
-        "Shirpur-Warwade", "Shirur", "Thane", "Uran", "Wani",
-        "Wardha", "Warora", "Warud", "Yeotmal", "Ambejogai",
-        "Anjangaon", "Balapur", "Barshi", "Basmath", "Bhandara",
-        "Bhokardan", "Bhoom", "Bhusawal", "Biloli", "Buldana",
-        "Butibori", "Chalisgaon", "Chandrapur", "Chandur", "Chandvad",
-        "Deoli", "Deulgaon Raja", "Dharni", "Digras", "Dindori",
-        "Georai", "Ghatanji", "Gondiya", "Goregaon", "Hinganghat",
-        "Hingoli", "Hingua", "Ichalkaranji", "Jalgaon", "Jalna",
-        "Jamner", "Kalamnuri", "Kallam", "Kalmeshwar", "Kalyan",
-        "Kamthi", "Karanja", "Karjat", "Karmala", "Katol",
-        "Khadki", "Khamgaon", "Khapa", "Khed", "Kinwat",
-        "Kopargaon", "Kurkheda", "Lanja", "Lasalgaon", "Latur",
-        "Lonar", "Lonavla", "Madha", "Mahabaleshwar", "Mahad",
-        "Mahagaon", "Mahalingpur", "Maihar", "Malegaon", "Malkapur",
-        "Manchar", "Mangalvedhe", "Mangrulpir", "Manjlegaon", "Manmad",
-        "Manwath", "Maregaon", "Mehkar", "Mhasla", "Mhaswad",
-        "Mira-Bhayandar", "Morshi", "Mouda", "Mukhed", "Mul",
-        "Mumbai", "Murtijapur", "Nachane", "Nagapur", "Nagbhir",
-        "Nagpur", "Nalasopara", "Nanded", "Nandgaon", "Nandura",
-        "Nandurbar", "Narkhed", "Nashik", "Navapur", "Navi Mumbai",
-        "Nawapur", "Nilanga", "Osmanabad", "Ozar", "Pachora",
-        "Paithan", "Palghar", "Pandharkaoda", "Pandharpur", "Panvel",
-        "Paratwada", "Parbhani", "Parli", "Parola", "Partur",
-        "Pathardi", "Pathri", "Patur", "Pauni", "Pen",
-        "Phaltan", "Pulgaon", "Pune", "Purna", "Pusad",
-        "Rahimatpur", "Rahta Pimplas", "Rahuri", "Rajura", "Ramtek",
-        "Ratnagiri", "Raver", "Risod", "Sailu", "Sangamner",
-        "Sangli", "Sangole", "Sasvad", "Satana", "Satara",
-        "Savner", "Sawantwadi", "Shahada", "Shegaon", "Shendurjana",
-        "Shirdi", "Shirpur-Warwade", "Shirur", "Shirpur-Warwade", "Shirur",
-        "Shrigonda", "Shrirampur", "Sillod", "Sinnar", "Solapur",
-        "Soyagaon", "Talegaon Dabhade", "Talode", "Tasgaon", "Tirora",
-        "Tirora", "Tuljapur", "Tumsar", "Uchgaon", "Udgir",
-        "Umarga", "Umarkhed", "Umred", "Uran", "Uran Islampur",
-        "Umarkhed", "Vadgaon", "Vaijapur", "Vasai-Virar", "Virar",
-        "Vita", "Wadgaon Road", "Wai", "Wani", "Wardha",
-        "Warora", "Warud", "Washim", "Yavatmal", "Yawal",
-        "Yevla", "Yeotmal", "Yeola", "Zari-Jamani", "Alirajpur",
-        "Anuppur", "Ashok Nagar", "Balaghat", "Barwani", "Betul",
-        "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara",
-        "Damoh", "Datia", "Dewas", "Dhar", "Guna",
-        "Gwalior", "Harda", "Hoshangabad", "Indore", "Itarsi",
-        "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone",
-        "Mandsaur", "Morena", "Murwara", "Nagda", "Narsinghgarh",
-        "Narsinghgarh", "Neemuch", "Nowrozabad", "Panna", "Pithampur",
-        "Raghogarh-Vijaypur", "Raisen", "Rajgarh", "Ratlam", "Ratlam",
-        "Rewa", "Sagar", "Satna", "Sehore", "Seoni",
-        "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Shujalpur",
-        "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria",
-        "Vidisha", "Wara Seoni", "Ahmednagar", "Akola", "Amravati",
-        "Aurangabad", "Bhusawal", "Chandrapur", "Dhule", "Jalgaon",
-        "Latur", "Malegaon", "Mumbai", "Nagpur", "Nanded",
-        "Nashik", "Osmanabad", "Pune", "Sangli", "Satara",
-        "Solapur", "Ulhasnagar", "Vasai-Virar", "Yavatmal", "Imphal",
-        "Thoubal", "Lilong", "Churachandpur", "Mayang Imphal", "Kakching",
-        "Nambol", "Lamka", "Lilong", "Jiribam", "Kwakta",
-        "Ningthoukhong", "Moirang", "Nongstoin", "Nongpoh", "Tura",
-        "Shillong", "Williamnagar", "Mokokchung", "Zunheboto", "Wokha",
-        "Tuensang", "Mon", "Kohima", "Phek", "Chumukedima",
-        "Dimapur", "Naginimora", "Bhandara", "Chandrapur", "Gondiya",
-        "Nagbhid", "Tumsar", "Amalner", "Arvi", "Aurangabad",
-        "Bhiwapur", "Chandrapur", "Chandur", "Digras", "Gondiya",
-        "Kamthi", "Karanja", "Kinwat", "Manwath", "Nagbhid",
-        "Nagpur", "Ramtek", "Ratnagiri", "Sailu", "Shirpur-Warwade",
-        "Shirur", "Thane", "Uran", "Wani", "Wardha",
-        "Warora", "Warud", "Yeotmal", "Ambejogai", "Anjangaon",
-        "Balapur", "Barshi", "Basmath", "Bhandara", "Bhokardan",
-        "Bhoom", "Bhusawal", "Biloli", "Buldana", "Butibori",
-        "Chalisgaon", "Chandrapur", "Chandur", "Chandvad", "Deoli",
-        "Deulgaon Raja", "Dharni", "Digras", "Dindori", "Georai",
-        "Ghatanji", "Gondiya", "Goregaon", "Hinganghat", "Hingoli",
-        "Hingua", "Ichalkaranji", "Jalgaon", "Jalna", "Jamner",
-        "Kalamnuri", "Kallam", "Kalmeshwar", "Kalyan", "Kamthi",
-        "Karanja", "Karjat", "Karmala", "Katol", "Khadki",
-        "Khamgaon", "Khapa", "Khed", "Kinwat", "Kopargaon",
-        "Kurkheda", "Lanja", "Lasalgaon", "Latur", "Lonar",
-        "Lonavla", "Madha", "Mahabaleshwar", "Mahad", "Mahagaon",
-        "Mahalingpur", "Maihar", "Malegaon", "Malkapur", "Manchar",
-        "Mangalvedhe", "Mangrulpir", "Manjlegaon", "Manmad", "Manwath",
-        "Maregaon", "Mehkar", "Mhasla", "Mhaswad", "Mira-Bhayandar",
-        "Morshi", "Mouda", "Mukhed", "Mul", "Mumbai",
-        "Murtijapur", "Nachane", "Nagapur", "Nagbhir", "Nagpur",
-        "Nalasopara", "Nanded", "Nandgaon", "Nandura", "Nandurbar",
-        "Narkhed", "Nashik", "Navapur", "Navi Mumbai", "Nawapur",
-        "Nilanga", "Osmanabad", "Ozar", "Pachora", "Paithan",
-        "Palghar", "Pandharkaoda", "Pandharpur", "Panvel", "Paratwada",
-        "Parbhani", "Parli", "Parola", "Partur", "Pathardi",
-        "Pathri", "Patur", "Pauni", "Pen", "Phaltan",
-        "Pulgaon", "Pune", "Purna", "Pusad", "Rahimatpur",
-        "Rahta Pimplas", "Rahuri", "Rajura", "Ramtek", "Ratnagiri",
-        "Raver", "Risod", "Sailu", "Sangamner", "Sangli",
-        "Sangole", "Sasvad", "Satana", "Satara", "Savner",
-        "Sawantwadi", "Shahada", "Shegaon", "Shendurjana", "Shirdi",
-        "Shirpur-Warwade", "Shirur", "Shirpur-Warwade", "Shirur", "Shrigonda",
-        "Shrirampur", "Sillod", "Sinnar", "Solapur", "Soyagaon",
-        "Talegaon Dabhade", "Talode", "Tasgaon", "Tirora", "Tirora",
-        "Tuljapur", "Tumsar", "Uchgaon", "Udgir", "Umarga",
-        "Umarkhed", "Umred", "Uran", "Uran Islampur", "Umarkhed",
-        "Vadgaon", "Vaijapur", "Vasai-Virar", "Virar", "Vita",
-        "Wadgaon Road", "Wai", "Wani", "Wardha", "Warora",
-        "Warud", "Washim", "Yavatmal", "Yawal", "Yevla",
-        "Yeotmal", "Yeola", "Zari-Jamani", "Alirajpur", "Anuppur",
-        "Ashok Nagar", "Balaghat", "Barwani", "Betul", "Bhind",
-        "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh",
-        "Datia", "Dewas", "Dhar", "Guna", "Gwalior",
-        "Harda", "Hoshangabad", "Indore", "Itarsi", "Jabalpur",
-        "Jhabua", "Katni", "Khandwa", "Khargone", "Mandsaur",
-        "Morena", "Murwara", "Nagda", "Narsinghgarh", "Narsinghgarh",
-        "Neemuch", "Nowrozabad", "Panna", "Pithampur", "Raghogarh-Vijaypur",
-        "Raisen", "Rajgarh", "Ratlam", "Ratlam", "Rewa",
-        "Sagar", "Satna", "Sehore", "Seoni", "Shahdol",
-        "Shajapur", "Sheopur", "Shivpuri", "Shujalpur", "Sidhi",
-        "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha",
-        "Wara Seoni", "Ahmednagar", "Akola", "Amravati", "Aurangabad",
-        "Bhusawal", "Chandrapur", "Dhule", "Jalgaon", "Latur",
-        "Malegaon", "Mumbai", "Nagpur", "Nanded", "Nashik",
-        "Osmanabad", "Pune", "Sangli", "Satara", "Solapur",
-        "Ulhasnagar", "Vasai-Virar"];
+    const [searchQuery, setSearchQuery] = useState('');
+    // State for the suggestions
+    const [suggestions, setSuggestions] = useState([]);
+    const [eventsData, setEventsData] = useState([{}]);
+    const [value, setValue] = useState("")
+
+  const options = [
+    { value: "Online", label: "Online"},
+    { value: "Offline", label: "Offline"},
+    { value: "In-Person", label: "In-Person"},
+  ]
+
+    // Handler for handling search input changes
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        setSearchQuery(value);
+        if (value === "") {
+            setSuggestions([]);
+            return;
+        }
+
+        const filteredSuggestions = citiesArray.filter((city) =>
+            city.toLowerCase().includes(value.toLowerCase())
+        );
+        setSuggestions(filteredSuggestions);
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+        setSearchQuery(suggestion);
+        setSuggestions([]);
+    };
+
+    // Handler for handling form submission (you can modify this as needed)
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // Handle search functionality here
+        console.log("Search query:", searchQuery);
+        // if the query is not from the suggestions list, show error message
+        if (!citiesArray.includes(searchQuery)) {
+            alert("Please enter a valid city name");
+            return;
+        }
+
+        // call the api
 
 
-        const handleSearchResult = (event) => {
-            const searchTerm = event.target.value;
-            setSearch(searchTerm);
-    
-            const filtered = indianCities.filter(city =>
-                city.toLowerCase().includes(searchTerm.toLowerCase())
-            );
-            setFilteredCities(filtered);
-        };
-    
-    
+        await axios.post(`http://localhost:3000/api/v1/events/searchEventsByQuery?city=${searchQuery}`).then((response) => {
+            console.log(response.data);
+            setEventsData(response.data.events);
+        }).catch((error) => {
+            console.log(error);
+        });
+
+    };
+
+
 
     return (
         <>
-            <form onSubmit={handleSearchResult} className="flex flex-row justify-center w-[50%] m-auto my-10">
-                <div className="w-[70%]">
-                    <label htmlFor="search" className="sr-only">Search</label>
-                    <TextInput id="search" type="search" placeholder="Find the latest Events" required onChange={(e) => {
-                        setSearch(e.target.value)
-                    }} />
-                </div>
-                <Button type="submit" className="w-[30%]" gradientDuoTone="greenToBlue">Search</Button>
-            </form>
-        </>
-    );
-};
 
-export default SearchBar;
+            <form onSubmit={handleSubmit} className="flex items-center justify-center">
+                <input
+                    type="text"
+                    placeholder="Search events in your city, country or state..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    className=" w-[50%] text-black border border-gray-300 rounded-l px-4 py-2 focus:outline-none"
+                />
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r">
+                    Search
+                </button>
+            </form>
+            <div className="suggestions-container  p-5 ">
+                <ul className="suggestions-list">
+                    {suggestions.map((suggestion, index) => (
+                        <li key={index} onClick={() => handleSuggestionClick(suggestion)} className="cursor-pointer pb-1">{suggestion}</li>
+                    ))}
+                </ul>
+            </div>
+
+            <div className='flex flex-row justify-between w-[60%] m-auto my-10'>
+
+                {/*Mode Option*/}
+                <div className='w-[30%]'>
+                    <Label htmlFor="Mode" value="Mode" />
+                    <Select options={options} defaultValue={value} placeholder="Mode" onChange={setValue} />
+                </div>
+
+
+                {/*Filter by date */}
+                <div className='w-[25%] '>
+                    <Label htmlFor="Filter By Date" value="Filter By Date " />
+                    <Datepicker />
+
+                </div>
+
+
+            </div>
+            <div className="events-list flex flex-row justify-around w-[90%]">
+                {eventsData.map((event, index) => (
+                    
+                    <EventCard key={index} event={event} />
+                ))}
+            </div>
+
+        </>
+    )
+}
+
+export default SearchBar
