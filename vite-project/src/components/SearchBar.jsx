@@ -1,13 +1,9 @@
-// import { useNavigate } from 'react-router-dom';
+
 import { citiesArray } from "../constants/citiesArray.js"
-import { statesArray } from "../constants/statesArray.js"
 import { useState } from 'react';
 import axios from "axios"
 import EventCard from "./EventCard.jsx";
-
-
 import { Datepicker, Label } from 'flowbite-react'
-
 import  Select  from 'react-select'
 
 const SearchBar = () => {
@@ -18,11 +14,11 @@ const SearchBar = () => {
     // State for the suggestions
     const [suggestions, setSuggestions] = useState([]);
     const [eventsData, setEventsData] = useState([{}]);
-    const [value, setValue] = useState("")
+    const [mode, setMode] = useState("")
 
   const options = [
     { value: "Online", label: "Online"},
-    { value: "Offline", label: "Offline"},
+    { value: "Hybrid", label: "Hybrid"},
     { value: "In-Person", label: "In-Person"},
   ]
 
@@ -69,6 +65,9 @@ const SearchBar = () => {
 
     };
 
+    const handleModeChange = (selectedOption) => {
+        setMode(selectedOption.value);
+    };
 
 
     return (
@@ -99,7 +98,7 @@ const SearchBar = () => {
                 {/*Mode Option*/}
                 <div className='w-[30%]'>
                     <Label htmlFor="Mode" value="Mode" />
-                    <Select options={options} defaultValue={value} placeholder="Mode" onChange={setValue} />
+                    <Select options={options} value={mode ? options.find(option => option.value === mode) : null} placeholder="Mode" onChange={handleModeChange} />
                 </div>
 
 
@@ -115,7 +114,7 @@ const SearchBar = () => {
             <div className="events-list flex flex-row justify-around w-[90%]">
                 {eventsData.map((event, index) => (
                     
-                    <EventCard key={index} event={event} />
+                    <EventCard key={index} event={event}  mode={mode}/>
                 ))}
             </div>
 
