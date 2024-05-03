@@ -3,12 +3,12 @@
 const HeroSection = () => {
   return (
     <div>
-      <div className='min-h-screen mt-20'>
-        <div className='flex max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5'>
+      <div className='min-h-screen'>
+        <div className='flex mx-auto md:flex-row md:items-center hero-section  items-center justify-center'>
           {/* left */}
-          <div className='flex-1'>
-            <h1 className='text-xl self-center font-semibold '> STUDENT AMBASSDOR's PROGRAM</h1>
-            <p className='mt-10 '> A Student Ambassador Program fosters leadership among students, empowering them
+          <div className=' text-white w-[70%]' >
+            <h1 className='text-2xl self-center font-semibold '> STUDENT AMBASSDOR's PROGRAM</h1>
+            <p className='mt-10 text-lg'> A Student Ambassador Program fosters leadership among students, empowering them
               to represent their school or institution. These ambassadors serve as liaisons
               between students, faculty, and administration, facilitating communication and
               fostering a sense of community. Through various initiatives, they promote school
@@ -19,10 +19,7 @@ const HeroSection = () => {
               Ambassador Program cultivates a vibrant and inclusive environment, enriching the overall
               student experience.</p>
           </div>
-          {/* right */}
-          <div className='flex-1'>
-            <img src="/hero_sec-trans.png"></img>
-          </div>
+          
         </div>
       </div>
       <div className=''>

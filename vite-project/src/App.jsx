@@ -5,6 +5,8 @@ import Footer from './components/Footer'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { AddEvents} from './pages/AddEvent'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App(){
   return (
@@ -18,6 +20,7 @@ export default function App(){
       
     </Routes>
     <Footer />
+    <ToastContainer />
     </BrowserRouter>
     
   )
