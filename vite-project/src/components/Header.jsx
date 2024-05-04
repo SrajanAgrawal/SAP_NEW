@@ -23,7 +23,7 @@ const Header = ()=>
 
   return (
     <Navbar fluid rounded>
-      <Navbar.Brand href="">
+      <Navbar.Brand href="/">
         <img src="/icons8-student-30.png" className="mr-3 h-6 sm:h-9" alt="" />
      <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">CareerCorps Student Ambassdor</span>
       </Navbar.Brand>
@@ -41,7 +41,7 @@ const Header = ()=>
                                     <span className="block text-sm">{user.username}</span>
                                     <span className="block truncate text-sm font-medium">{user.email}</span>
                                 </Dropdown.Header>
-                                <Dropdown.Item>Dashboard</Dropdown.Item>
+                                <Dropdown.Item href="/dashboard">Dashboard</Dropdown.Item>
                                 <Dropdown.Item>Upload Events</Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>

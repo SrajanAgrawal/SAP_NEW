@@ -2,6 +2,7 @@ import Router from "express";
 import {addNewEvent, addEventImages, searchEvents, generateRandomEventsData} from "../controllers/events.controllers.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import verifyJWT from "../middlewares/auth.middleware.js";
+import { mailSender } from "../utils/sendMail.js";
 
 const router = Router();
 
@@ -15,5 +16,13 @@ router.route("/addeventImages").post(verifyJWT, addEventImages)
 router.route('/searchEventsByQuery').post(searchEvents)
 
 router.route('/generateData').get(generateRandomEventsData);
+
+router.route('/sendMail').post((req, res) => {
+    const {email, title, body} = req.body;
+    console.log(email, title, body);
+    const info = mailSender(email, title, body);
+    console.log("Message sent: %s", info.messageId);
+    res.send("Mail sent successfully")
+});
 
 export default router;

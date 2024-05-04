@@ -97,8 +97,9 @@ export const searchEvents = async (req, res) => {
         console.log(sortDirection)
         console.log(req.query);
         const events = await Event.find({
+            ...(req.query.id && { _id: req.query.id }),
             ...(req.query.userId && { organizedBy: req.query.userID }),
-            ...(req.query.eventId && { _id: req.query.eventID }),
+     
             ...(req.query.startTime && { startTime: req.query.startTime }),
             ...(req.query.endTime && { endTime: req.query.endTime }),
             ...(req.query.city && { city: req.query.city }),
@@ -216,7 +217,7 @@ export const generateRandomEventsData = async (req, res) => {
             const newEvent = new Event({
                 title: faker.lorem.words(),
                 description: faker.lorem.sentence(),
-                thumbnail: faker.image.urlPlaceholder(),
+                thumbnail: faker.image.dataUri(),
                 startTime: faker.date.recent(),
                 endTime: faker.date.future(),
                 tags: faker.helpers.arrayElement(['ReactJs', 

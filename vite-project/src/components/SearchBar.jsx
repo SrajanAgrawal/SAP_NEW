@@ -2,12 +2,13 @@
 import { citiesArray } from "../constants/citiesArray.js"
 import { useState } from 'react';
 import axios from "axios"
-import EventCard from "./EventCard.jsx";
+
 import { Datepicker, Label } from 'flowbite-react'
 import Select from 'react-select'
 import Slider from "react-slick";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdModeOfTravel } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
 
@@ -19,6 +20,8 @@ const SearchBar = () => {
     const [mode, setMode] = useState("")
     const [selectedDate, setSelectedDate] = useState(null);
 
+    const navigate = useNavigate();
+
 
     var settings = {
         dots: true,
@@ -28,32 +31,32 @@ const SearchBar = () => {
         slidesToScroll: 1,
         initialSlide: 0,
         responsive: [
-          {
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3,
-              infinite: true,
-              dots: true
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    initialSlide: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
             }
-          },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2,
-              initialSlide: 2
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
-            }
-          }
         ]
-      };
+    };
 
 
     const options = [
@@ -129,12 +132,39 @@ const SearchBar = () => {
     };
 
 
-    const handleDateChange = (date) => {
-        // e.preventDefault();
-        // console.log("Date changed");
-        // const date = e.target.value;
+    const handleDatePickerChange = (date) => {
         setSelectedDate(date);
-        console.log("Date changed" + date);
+        const formattedDate = date.toLocaleDateString('en-US', {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            
+        })
+
+        console.log(formattedDate)
+        const filteredData = mainDataNotAltered.filter((event) => {
+            // Assuming the event.startTime is also in ISO string format
+            const eventDate = new Date(event.startTime).toLocaleDateString('en-US', {
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                 
+            });
+            console.log("Event Date: ", eventDate);
+
+            return eventDate === formattedDate;
+        });
+
+        console.log("Filtered Data: ", filteredData)
+        setEventsData(filteredData);
+        console.log("Selected Date: ", date);
+    }
+
+    const handleEventCardClick = (id) => {
+        console.log("Event ID: ", id);
+        navigate(`/event/${id}`)
     }
 
     return (
@@ -168,19 +198,19 @@ const SearchBar = () => {
                 {/*Filter by date */}
                 <div className='w-[25%] '>
                     <Label htmlFor="Filter By Date" value="Filter By Date " />
-                    <Datepicker onChange={handleDateChange}/>
+                    <Datepicker name="selectedDate" onSelectedDateChanged={handleDatePickerChange} />
                 </div>
             </div>
 
             <Slider {...settings} className="w-[90%] m-auto pt-12">
                 {eventsData.map((event, index) => (
                     <>
-                        <div key={index} className="flex-1 event-card bg-white rounded-lg shadow-xl  overflow-hidden mb-4 mx-2 sm:w-72 md:w-80 lg:w-96 ">
+                        <div key={index} className="flex-1 event-card bg-white rounded-lg shadow-xl  overflow-hidden mb-4 mx-2 sm:w-72 md:w-80 lg:w-96 " onClick={() => handleEventCardClick(event._id)}>
                             {/* Event Title */}
                             <h2 className="text-xl font-bold mb-4">{event.title}</h2>
                             {/* Event Image */}
                             <div className="aspect-w-16 aspect-h-9 mb-4 flex justify-center items-center">
-                                <img src="https://img.freepik.com/free-photo/book-composition-with-open-book_23-2147690555.jpg?size=626&ext=jpg" className="object-cover w-full h-full" alt={event.title} />
+                                <img src={event.thumbnail} className="object-cover w-full h-full" alt={event.title} />
                             </div>
                             {/* Event Description */}
                             <p className="text-gray-700 mb-4">{event.description}</p>
