@@ -1,24 +1,33 @@
 import { Button, Navbar, Dropdown, Avatar } from "flowbite-react";
 import { useEffect, useState } from 'react'
 import {useSelector} from 'react-redux' 
+import { removeUserState } from "../redux/user/userSlicer.js";
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom";
 
 
-const Header = ()=>
+const Header = () =>
  {
-
-  const user = useSelector(state => state.user.currentUser) 
+   const user = useSelector(state => state.user.currentUser) 
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   console.log(user);
   const [isLoggedin, setIsLoggedin] = useState(false)
 
   useEffect(() => {
-      if (user) {
+      if (user && user !== null) {
           setIsLoggedin(true)
       }
   }, [user])
 
   const handleSignOut = () => {
       // sign out api call
+      dispatch(removeUserState())
+      navigate("/login")
       setIsLoggedin(false)
+
+      // dispatch action to clear user state
+      
   }
 
   return (
@@ -38,11 +47,10 @@ const Header = ()=>
                                 }
                             >
                                 <Dropdown.Header>
-                                    <span className="block text-sm">{user.username}</span>
+                                    <span className="block text-sm">{user.firstname} {user.lastname}</span>
                                     <span className="block truncate text-sm font-medium">{user.email}</span>
                                 </Dropdown.Header>
                                 <Dropdown.Item href="/dashboard">Dashboard</Dropdown.Item>
-                                <Dropdown.Item>Upload Events</Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>
                             </Dropdown>) :
@@ -54,13 +62,13 @@ const Header = ()=>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="#" active>
+        <Navbar.Link href="/" active>
           Home
         </Navbar.Link>
-        <Navbar.Link href="#">About</Navbar.Link>
-        <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link>
+        <Navbar.Link href="/about">About</Navbar.Link>
+
+        <Navbar.Link href="/allAmbassadors">Ambassadors</Navbar.Link>
+        
       </Navbar.Collapse>
     </Navbar>
   );

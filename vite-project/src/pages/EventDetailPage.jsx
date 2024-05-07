@@ -4,6 +4,7 @@ import axios from "axios"
 import { useState } from "react"
 import { Button, TextInput } from "flowbite-react"
 // import nodemailer from 'nodemailer'
+import {ToastContainer, toast} from 'react-toastify'
 
 const EventDetailPage = () => {
     const { id } = useParams()
@@ -73,6 +74,8 @@ const EventDetailPage = () => {
 `
         }).then((res) => {
             console.log(res.data)
+            toast("RSVP Submitted Successfully", { type: "success" })
+            
         })
             .catch((error) => {
                 console.log(error)
@@ -83,12 +86,12 @@ const EventDetailPage = () => {
 
 
     return (
-        <div className="container mx-auto mt-10">
-            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="mx-auto mt-10 flex justify-center items-center">
+            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-3/4">
                 <img className="object-cover w-full h-64 mb-4" src={eventDetails.thumbnail} alt={eventDetails.title} />
                 <h1 className="text-3xl font-bold mb-2">{eventDetails.title}</h1>
                 <p className="text-gray-700 text-lg mb-4">{eventDetails.description}</p>
-                <div className="flex flex-col md:flex-row justify-between mb-4">
+                <div className="flex flex-col md:flex-row justify-around mb-4">
                     <div>
                         <h2 className="font-bold">Organized By</h2>
                         <p>{eventDetails.organizedBy}</p>
@@ -156,6 +159,7 @@ const EventDetailPage = () => {
                 }
 
             </div>
+            <ToastContainer />
         </div>
     )
 }

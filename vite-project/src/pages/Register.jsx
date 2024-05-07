@@ -2,6 +2,7 @@ import { Label, FileInput, TextInput, Button } from "flowbite-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {ToastContainer, toast} from 'react-toastify';   
 
 
 const Register = () => {
@@ -42,7 +43,7 @@ const Register = () => {
             formData.append('phonenumber', phoneNumber);
             formData.append('dob', DateOfBirth);
             formData.append('companyname', companyName);
-
+            formData.append('role', ['user'])
 
             const config = {
                 headers: {
@@ -53,7 +54,10 @@ const Register = () => {
             const response = await axios.post('http://localhost:3000/api/v1/user/register', formData, config);
             console.log('API Response:', response.data);
             setError(response.data.messsage + "Loading.....")
+            
+            // toast.success("User Registered Successfully!", {position: "top-right", autoClose: 2000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "colored"});
 
+            toast("User Registered Successfully", { type: "success" })
             navigate("/login")
             // Add any additional handling after API call
         } catch (error) {
@@ -162,6 +166,7 @@ const Register = () => {
 
                 </form>
             </div>
+            <ToastContainer />
 
         </>
     );

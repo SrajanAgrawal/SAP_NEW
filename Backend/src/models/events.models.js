@@ -16,6 +16,7 @@ const eventSchema = new mongoose.Schema({
     description: {
         type: String
     },
+    // ['jfdkfjdkfjd2e829320', 'jfdkfjdkfjd2e829320', 'jfdkfjdkfjd]
     organizedBy: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -80,11 +81,11 @@ const eventSchema = new mongoose.Schema({
         max: 5,
         default: 1
     },
-    eventsCategory: {
+    eventsCategory: [{
         type: String,
         enum: EventCategoriesArray,
         required: true
-    }
+    }]
 }, { timestamps: true });
 
 export const Event = mongoose.model("Event", eventSchema);

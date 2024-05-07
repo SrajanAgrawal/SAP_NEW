@@ -4,11 +4,12 @@ import { Header } from './components/Header'
 import Footer from './components/Footer'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
-import { AddEvents} from './pages/AddEvent'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventDetailPage from './pages/EventDetailPage'
 import Dashboard from './pages/Dashboard'
+import AllAmbassadors from "./pages/AllAmbassadors.jsx"
+import About from './pages/About.jsx'
 
 export default function App(){
   return (
@@ -18,10 +19,11 @@ export default function App(){
       <Route path="/" element={<Home/>} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/addEvent" element={<AddEvents />} />
       <Route path="/event/:id" element={<EventDetailPage />} />
       <Route path='/dashboard' element={<Dashboard />} />
-      
+
+      <Route path='/allAmbassadors' element={<AllAmbassadors />} />
+      <Route path='/about' element={<About />} />
     </Routes>
     <Footer />
     <ToastContainer />

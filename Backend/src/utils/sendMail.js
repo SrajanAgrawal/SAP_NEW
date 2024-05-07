@@ -4,13 +4,12 @@ const mailSender = async (email, title, body) => {
   try {
     // Create a Transporter to send emails
     const transporter = nodemailer.createTransport({
-        host: 'smtp.ethereal.email',
-        port: 587,
-        auth: {
-            user: 'leonora.durgan72@ethereal.email', // careercorps@gmail.com
-            pass: '4FxTVAdaz316EpzeCv' // 39483kjfkjdk
-        }
-    });
+      service: 'gmail',
+      auth: {
+          user: process.env.EMAIL,
+          pass: process.env.EMAIL_PASSWORD
+      }
+  });
     
     // Send emails to users
     let info = await transporter.sendMail({

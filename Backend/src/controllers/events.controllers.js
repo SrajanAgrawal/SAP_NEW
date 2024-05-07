@@ -6,13 +6,13 @@ export const addNewEvent = async (req, res) => {
 
     // if there is no user in the request then do not allow the user to add event
     if (!req.user) {
-        return res.status(401).json({ message: "You are not authorized" });
+        return res.status(401).json({ message: "You are not  a authorized" });
     }
     // required fields
 
 
-    if (!req.body.title || !req.body.thumbnail || !req.body.startTime || !req.body.endTime
-        || !req.body.organizedBy || !req.body.mode || !req.body.city || !req.body.state || !req.body.country || !req.body.eventsCategory) {
+    if (!req.body.title || !req.body.startTime || !req.body.endTime
+        || !req.body.mode || !req.body.city || !req.body.state || !req.body.country || !req.body.eventsCategory) {
         return res.status(400).json({ message: 'Please provide all required field' });
     }
 
@@ -135,7 +135,7 @@ export const searchEvents = async (req, res) => {
 
 
 
-
+// generate random events data
 export const generateRandomEventsData = async (req, res) => {
 
     try {
@@ -316,8 +316,21 @@ export const generateRandomEventsData = async (req, res) => {
 }
 
 
-
-
+// get all events by organizer
+export const getAllEventsByOrganizer = async (req,res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "You are not authorized to view this page." });
+        }
+        // req.user is set by verifyJWT, which is a middleware that verifies the JWT token
+        // we are not taking anything in the body, just taking the logged in user id from the backend.
+        const events = await Event.find({ organizedBy: { $in: [req.user.id] } });
+        res.status(200).json({events: events, success: true});
+    } catch (error) {
+        console.error("Error getting events by organizer:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
 
 
 

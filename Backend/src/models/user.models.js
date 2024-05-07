@@ -6,15 +6,18 @@ const userSchema = new mongoose.Schema({
 
     firstname: {
         type: String,
-        required: true
+        required: true,
+        uppercase: true
     },
     lastname: {
-        type: String
+        type: String,
+        uppercase: true
     },
     username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: true
     },
     email: {
         type: String,
@@ -44,9 +47,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
     }],
-    role: {
-        type: String
-    },
+    role: [{
+        type: String,
+        
+    }],
     otp: {
         type: String
     },
@@ -82,7 +86,8 @@ userSchema.methods.generateAccessToken = function () {
     return jwt.sign({
         _id: this._id,
         username: this.username,
-        email: this.email
+        email: this.email,
+        role: this.role
     },
         process.env.ACCESS_TOKEN_SECRET,
         {

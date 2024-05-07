@@ -1,4 +1,3 @@
-import React from 'react';
 
 const EventCard = ({ event }) => {
     // Capitalize the first letter of the event title

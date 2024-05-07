@@ -168,7 +168,7 @@ const SearchBar = () => {
     }
 
     return (
-        <div className="mt-10">
+        <div className="mt-10 mb-10">
             <form onSubmit={handleSubmit} className="flex items-center justify-center">
                 <input
                     type="text"

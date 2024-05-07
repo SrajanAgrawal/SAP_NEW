@@ -1,8 +1,9 @@
-import { Label, FileInput, TextInput, Button} from "flowbite-react";
+import { Label, FileInput, TextInput, Button } from "flowbite-react";
 import { useState } from "react";
 
 import axios from "axios"
-import  Select  from 'react-select'
+import Select from 'react-select'
+import {ToastContainer, toast} from 'react-toastify'
 
 
 
@@ -18,10 +19,11 @@ const AddEvents = () => {
     const [eventCategory, setEventCategory] = useState(""); // use multiple select
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("")
-  //  const [date, setDate] = useState("");
+    //  const [date, setDate] = useState("");
     const [state, setState] = useState("");
     const [city, setCity] = useState("");
     const [mode, setModes] = useState("");
+    const [eventURL, setEventURL] = useState("");
 
 
 
@@ -32,7 +34,7 @@ const AddEvents = () => {
         { value: 'Robotics', label: 'Robotics' },
         { value: 'Artificial Intelligence (AI)', label: 'Artificial Intelligence (AI)' },
         { value: 'Cybersecurity', label: 'Cybersecurity' },
-        { value: 'Data Science and Analytics', label: 'Data Science and Analytics' },      
+        { value: 'Data Science and Analytics', label: 'Data Science and Analytics' },
         { value: 'Blockchain and Cryptocurrency', label: 'Blockchain and Cryptocurrency' },
         { value: 'Internet of Things (IoT)', label: 'Internet of Things (IoT)' },
         { value: 'Game Development', label: 'Game Development' },
@@ -46,13 +48,51 @@ const AddEvents = () => {
         { value: 'GitHub', label: 'GitHub' },
         { value: 'Deployment Strategies', label: 'Deployment Strategies' },
         { value: 'Authentication Methods', label: 'Authentication Methods' },
-       
+
 
     ];
 
+    const statesOption = [
+        { value: 'Andhra Pradesh', label: 'Andhra Pradesh' },
+        { value: 'Arunachal Pradesh', label: 'Arunachal Pradesh' },
+        { value: 'Assam', label: 'Assam' },
+        { value: 'Bihar', label: 'Bihar' },
+        { value: 'Chhattisgarh', label: 'Chhattisgarh' },
+        { value: 'Goa', label: 'Goa' },
+        { value: 'Gujarat', label: 'Gujarat' },
+        { value: 'Haryana', label: 'Haryana' },
+        { value: 'Himachal Pradesh', label: 'Himachal Pradesh' },
+        { value: 'Jharkhand', label: 'Jharkhand' },
+        { value: 'Karnataka', label: 'Karnataka' },
+        { value: 'Kerala', label: 'Kerala' },
+        { value: 'Madhya Pradesh', label: 'Madhya Pradesh' },
+        { value: 'Maharashtra', label: 'Maharashtra' },
+        { value: 'Manipur', label: 'Manipur' },
+        { value: 'Meghalaya', label: 'Meghalaya' },
+        { value: 'Mizoram', label: 'Mizoram' },
+        { value: 'Nagaland', label: 'Nagaland' },
+        { value: 'Odisha', label: 'Odisha' },
+        { value: 'Punjab', label: 'Punjab' },
+        { value: 'Rajasthan', label: 'Rajasthan' },
+        { value: 'Sikkim', label: 'Sikkim' },
+        { value: 'Tamil Nadu', label: 'Tamil Nadu' },
+        { value: 'Telangana', label: 'Telangana' },
+        { value: 'Tripura', label: 'Tripura' },
+        { value: 'Uttarakhand', label: 'Uttarakhand' },
+        { value: 'Uttar Pradesh', label: 'Uttar Pradesh' },
+        { value: 'West Bengal', label: 'West Bengal' },
+    ]
+
+    const modeOptions = [
+        { value: 'online', label: 'Online' },
+        { value: 'hybrid', label: 'Hybrid' },
+        { value: 'in-person', label: 'In-Person' },
+    ]
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const eventCategory2 = eventCategory.map((category) => category.value);
         console.log('====================================');
         console.log(title);
         console.log(description);
@@ -61,53 +101,62 @@ const AddEvents = () => {
         console.log(city);
         console.log(state);
         console.log(mode);
+        console.log(eventURL);
         //console.log(date);
-        console.log(eventCategory);
+        console.log(eventCategory2);
         console.log(thumbnail);
         //console.log(organizedBY);
-      //  console.log(thumbnail);
+        //  console.log(thumbnail);
         console.log('====================================');
 
 
-    
-            setError('Loading.........')
-            const formData = new FormData();
-            formData.append('thumbnail', thumbnail);
-            formData.append('title', title);
-            formData.append('description', description);
-           // formData.append('organizedBy', organizedBy);
-            formData.append('eventsCategory', eventCategory);
-            formData.append('date', date);
-            formData.append('startTime', startTime);
-            formData.append('endTime', endTime);
-            formData.append('country', 'India');
-            formData.append('mode', mode);
-            formData.append('state', state);
-            formData.append('city', city);
+
+        setError('Loading.........')
+        const formData = new FormData();
+        formData.append('thumbnail', thumbnail);
+        formData.append('title', title);
+        formData.append('description', description);
+        // formData.append('organizedBy', organizedBy);
+        formData.append('eventsCategory', eventCategory2);
+
+        formData.append('startTime', startTime);
+        formData.append('endTime', endTime);
+        formData.append('country', 'India');
+        formData.append('mode', mode.value);
+        formData.append('state', state.value);
+        formData.append('city', city);
+        formData.append('eventURL', eventURL);
 
 
-            //formData.append('companyname', companyName);
+        //formData.append('companyname', companyName);
 
 
-            const config = {
-                headers: {
-                  'content-type': 'multipart/form-data',
-                },
-              };
-          
-              await axios.post("http://localhost:3000/api/events/addNewEvent", formData, config).then((response) => {
-                console.log(response);
-              }).catch((error) => {
-                console.log(error);
-              })
-            }
-    
+        console.log(formData.get('eventsCategory'));
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        };
+
+        await axios.post("http://localhost:3000/api/v1/events/addNewEvent", formData, {
+            ...config,
+            withCredentials: true  // Add this line to include credentials in the request
+        }).then((response) => {
+            console.log(response);
+            setError('Event Added Successfully')
+            toast("Event Added Successfully", { type: "success" })
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
 
 
     return (
         <>
-            <div className="w-[100%] flex flex-col items-center py-12">
-                <h1 className="text-3xl font-bold mb-4">Add Events Here !</h1>
+            <div className="flex flex-col items-center justify-center w-[40rem]">
+
                 {error && <div className="text-red-500 mb-4">{error}</div>}
                 <form className="w-[100%] flex flex-col items-center py-12" onSubmit={handleSubmit}>
                     {/* upload file - thumbnail*/}
@@ -136,26 +185,17 @@ const AddEvents = () => {
                     </div>
 
 
-                    {/*  organizedBY */}
-                    {/* <div className="w-3/5 mb-4">
-                        <div className="mb-2 block">
-                            <Label htmlFor="organizedBY" value="Event Organized BY" />
-                        </div>
-                        <TextInput id="organizedBY" type="text" placeholder="Organized BY" value={organizedBY} onChange={(e) => setOrganizedBY(e.target.value)} />
-                    </div> */}
-
-                  
                     {/* Event category */}
-                     <div className="w-3/5 mb-4">
-                    <Label htmlFor="eventCategory" value="Event Category" />
-                    <Select
-                        id="eventCategory"
-                        options={eventOptions}
-                        isMulti
-                        value={eventCategory}
-                        onChange={setEventCategory}
-                    />
-                </div>
+                    <div className="w-3/5 mb-4">
+                        <Label htmlFor="eventCategory" value="Event Category" />
+                        <Select
+                            id="eventCategory"
+                            options={eventOptions}
+                            isMulti
+                            value={eventCategory}
+                            onChange={setEventCategory}
+                        />
+                    </div>
 
 
                     {/* startTime */}
@@ -174,68 +214,36 @@ const AddEvents = () => {
                         <TextInput id="endTime" type="datetime-local" placeholder="End-Time" required value={endTime} onChange={(e) => setEndTime(e.target.value)} />
                     </div>
 
-                    {/* date */}
-                    {/* <div className="w-3/5 mb-4">
-                        <div className="mb-2 block">
-                            <Label htmlFor="date" value="Date of Event" />
-                        </div>
-                        <TextInput id="date" type="date" placeholder="" required value={date} onChange={(e) => setDate(e.target.value)} />
-                    </div> */}
+                    
+
 
                     {/* country */}
                     <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
-                        <Label htmlFor="Country" value="Country" />
+                            <Label htmlFor="Country" value="Country" />
 
                         </div>
-                                  <TextInput id="Country" type="text" placeholder="India" disabled />
+                        <TextInput id="Country" type="text" placeholder="India" disabled />
 
                     </div>
 
                     {/* state */}
+
                     <div className="w-3/5 mb-4">
-                        <div className="mb-2 block">
-                         <Label htmlFor="states" value="Select your state" />
-                        </div>
-                                  <Select id="states" onChange={(e) => setState(e.target.value)} required>
-            <option>Andhra Pradesh</option>
-            <option>Arunachal Pradesh</option>
-            <option>Assam</option>
-            <option>Bihar</option>
-            <option>Chhattisgarh</option>
-            <option>Goa</option>
-            <option>Gujarat</option>
-            <option>Haryana</option>
-            <option>Himachal Pradesh</option>
-            <option>Jharkhand</option>
-            <option>Karnataka</option>
-            <option>Kerala</option>
-            <option>Madhya Pradesh</option>
-            <option>Maharashtra</option>
-            <option>Manipur</option>
-            <option>Meghalaya</option>
-            <option>Mizoram</option>
-            <option>Nagaland</option>
-            <option>Odisha</option>
-            <option>Punjab</option>
-            <option>Rajasthan</option>
-            <option>Sikkim</option>
-            <option>Tamil Nadu</option>
-            <option>Telangana</option>
-            <option>Tripura</option>
-            <option>Uttarakhand</option>
-            <option>Uttar Pradesh</option>
-            <option>West Bengal</option>
+                        <Label htmlFor="states" value="Select Your State" />
+                        <Select
+                            id="states"
+                            options={statesOption}
 
-
-          </Select>
+                            value={state}
+                            onChange={setState}
+                        />
                     </div>
 
-
-                      {/* city */}
-                      <div className="w-3/5 mb-4">
+                    {/* city */}
+                    <div className="w-3/5 mb-4">
                         <div className="mb-2 block">
-                         <Label htmlFor="city" value="Select your city" />
+                            <Label htmlFor="city" value="Select your city" />
                         </div>
                         <TextInput id="city" type="text" placeholder="Enter your city" onChange={(e) => setCity(e.target.value)} required />
 
@@ -243,19 +251,27 @@ const AddEvents = () => {
 
                     {/* mode  */}
                     <div className="w-3/5 mb-4">
-                        <div className="mb-2 block">
                         <Label htmlFor="mode" value="Select Mode" />
-                        </div>
-                        <Select id="mode" onChange={(e) => setModes(e.target.value)} required>
-            <option>Online</option>
-            <option>Offline</option>
-            <option>In-Person</option>
-          </Select>
+                        <Select
+                            id="mode"
+                            options={modeOptions}
 
+                            value={mode}
+                            onChange={setModes}
+                        />
                     </div>
 
+                    {
+                        (mode.value === 'online' || mode.value === 'hybrid') && (
+                            <div className="w-3/5 mb-4">
+                                <div className="mb-2 block">
+                                    <Label htmlFor="eventURL" value="Event URL" />
+                                </div>
+                                <TextInput id="eventURL" type="text" placeholder="Enter Event URL" onChange={(e) => setEventURL(e.target.value)} required />
+                            </div>
+                        )
 
-                    
+                    }
 
                     {/* Submit Button */}
                     <div className="w-3/5">
@@ -267,6 +283,7 @@ const AddEvents = () => {
                 </form>
             </div>
 
+            <ToastContainer />
         </>
     );
 };

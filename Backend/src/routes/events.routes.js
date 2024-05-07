@@ -1,5 +1,5 @@
 import Router from "express";
-import {addNewEvent, addEventImages, searchEvents, generateRandomEventsData} from "../controllers/events.controllers.js";
+import {addNewEvent, addEventImages, searchEvents, generateRandomEventsData, getAllEventsByOrganizer} from "../controllers/events.controllers.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import verifyJWT from "../middlewares/auth.middleware.js";
 import { mailSender } from "../utils/sendMail.js";
@@ -7,7 +7,7 @@ import { mailSender } from "../utils/sendMail.js";
 const router = Router();
 
 // Route to add a new event
-router.route("/addNewEvent").post(upload.single("thumbnail"), addNewEvent)
+router.route("/addNewEvent").post(verifyJWT, upload.single("thumbnail"), addNewEvent)
 
 // Route to add images to an event
 router.route("/addeventImages").post(verifyJWT, addEventImages)
@@ -16,6 +16,8 @@ router.route("/addeventImages").post(verifyJWT, addEventImages)
 router.route('/searchEventsByQuery').post(searchEvents)
 
 router.route('/generateData').get(generateRandomEventsData);
+
+router.route("/getAllEventsByOrganizer").get(verifyJWT, getAllEventsByOrganizer)
 
 router.route('/sendMail').post((req, res) => {
     const {email, title, body} = req.body;

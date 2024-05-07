@@ -14,7 +14,7 @@ const userSlice = createSlice ({
         },
 
         removeUserState: (state) => {
-            state.currentUser = {}
+            state.currentUser = null
         },
 
         updateUserState: (state, action) => {

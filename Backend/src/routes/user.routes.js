@@ -15,5 +15,30 @@ router.route("/logout").post(verifyJWT, logoutUser)
 // to get the information about current user
 router.route("/currentUser").post(verifyJWT, getCurrentUser)
 
+router.post('/refresh-token', async (req, res) => {
+    const refreshToken = req.body.refreshToken;
+
+    if (!refreshToken) {
+        return res.status(401).json({ message: "Refresh token is required" });
+    }
+
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
+        // Check if the user exists in the database
+        const user = await User.findById(decoded._id).select("-password -refreshToken");
+
+        if (!user) {
+            return res.status(401).json({ message: "Invalid refresh token" });
+        }
+
+        // Generate a new access token
+        const newAccessToken = user.generateAccessToken();
+
+        return res.status(200).json({ accessToken: newAccessToken });
+    } catch (error) {
+        return res.status(401).json({ message: "Invalid refresh token", data: error.message });
+    }
+});
 
 export default router;
