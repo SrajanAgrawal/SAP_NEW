@@ -4,6 +4,7 @@ import { Header } from './components/Header'
 import Footer from './components/Footer'
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
+import { ApplyNow } from './pages/ApplyNow'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventDetailPage from './pages/EventDetailPage'
@@ -22,6 +23,7 @@ export default function App(){
       <Route path="/event/:id" element={<EventDetailPage />} />
       <Route path='/dashboard' element={<Dashboard />} />
 
+      <Route path='/applyNow' element={<ApplyNow/>}/>
       <Route path='/allAmbassadors' element={<AllAmbassadors />} />
       <Route path='/about' element={<About />} />
     </Routes>
