@@ -9,6 +9,7 @@ import Slider from "react-slick";
 import { FaCalendarAlt } from "react-icons/fa";
 import { MdModeOfTravel } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../constants/baseUrl.js";
 
 const SearchBar = () => {
 
@@ -99,7 +100,7 @@ const SearchBar = () => {
         // call the api
 
 
-        await axios.post(`http://localhost:3000/api/v1/events/searchEventsByQuery?city=${searchQuery}`).then((response) => {
+        await axios.post(`${baseUrl}/api/v1/events/searchEventsByQuery?city=${searchQuery}`).then((response) => {
             console.log(response.data);
             setEventsData(response.data.events);
             setMainDataNotAltered(response.data.events);

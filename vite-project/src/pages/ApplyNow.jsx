@@ -4,6 +4,7 @@ import Select from 'react-select';
 import { ToastContainer, toast } from 'react-toastify';
 // import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { baseUrl } from '../constants/baseUrl';
 
 const ApplyNow = () => {
   // const navigate = useNavigate();
@@ -60,7 +61,7 @@ const ApplyNow = () => {
     }
 
     try {
-      await axios.post("http://localhost:3000/api/v1/events/sendMail", {
+      await axios.post(`${baseUrl}/api/v1/events/sendMail`, {
         email: formData.email,
         title: "Career Corps || Student Ambassador Application Form",
         body: `

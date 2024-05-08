@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {ToastContainer, toast} from 'react-toastify';   
+import { baseUrl } from "../constants/baseUrl";
 
 
 const Register = () => {
@@ -51,7 +52,7 @@ const Register = () => {
                 },
             };
 
-            const response = await axios.post('http://localhost:3000/api/v1/user/register', formData, config);
+            const response = await axios.post(`${baseUrl}/api/v1/user/register`, formData, config);
             console.log('API Response:', response.data);
             setError(response.data.messsage + "Loading.....")
             

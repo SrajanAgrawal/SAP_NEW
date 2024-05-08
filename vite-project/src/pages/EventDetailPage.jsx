@@ -5,6 +5,7 @@ import { useState } from "react"
 import { Button, TextInput } from "flowbite-react"
 // import nodemailer from 'nodemailer'
 import {ToastContainer, toast} from 'react-toastify'
+import { baseUrl } from "../constants/baseUrl"
 
 const EventDetailPage = () => {
     const { id } = useParams()
@@ -16,7 +17,7 @@ const EventDetailPage = () => {
     useEffect(() => {
         const fetchEventDetails = async () => {
             try {
-                const response = await axios.post(`http://localhost:3000/api/v1/events/searchEventsByQuery?id=${id}`);
+                const response = await axios.post(`${baseUrl}/api/v1/events/searchEventsByQuery?id=${id}`);
                 setEventDetails(response.data.events[0]);
                 eventDetails.eventUrl = "https://meet.google.com/"
             } catch (error) {
@@ -41,7 +42,7 @@ const EventDetailPage = () => {
         // Add your logic here to send name and email to the server
 
         // send mails 
-        await axios.post("http://localhost:3000/api/v1/events/sendMail", {
+        await axios.post(`${baseUrl}/api/v1/events/sendMail`, {
             email: email,
             title: "RSVP Confirmation",
             body: `

@@ -4,6 +4,7 @@ import { useState } from "react";
 import axios from "axios"
 import Select from 'react-select'
 import {ToastContainer, toast} from 'react-toastify'
+import { baseUrl } from "../constants/baseUrl";
 
 
 
@@ -138,7 +139,7 @@ const AddEvents = () => {
             },
         };
 
-        await axios.post("http://localhost:3000/api/v1/events/addNewEvent", formData, {
+        await axios.post(`${baseUrl}/api/v1/events/addNewEvent`, formData, {
             ...config,
             withCredentials: true  // Add this line to include credentials in the request
         }).then((response) => {

@@ -5,6 +5,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { MdModeOfTravel } from "react-icons/md";
 
 import Slider from "react-slick";
+import { baseUrl } from "../constants/baseUrl";
 
 const MyEvents = () => {
   const [events, setEvents] = useState([]);
@@ -46,7 +47,7 @@ const MyEvents = () => {
 
   useEffect(() => {
     const fetchMyEvents = async () => {
-      await axios.get("http://localhost:3000/api/v1/events/getAllEventsByOrganizer", {
+      await axios.get(`${baseUrl}/api/v1/events/getAllEventsByOrganizer`, {
         withCredentials: true
       }).then((response) => {
         console.log(response.data)

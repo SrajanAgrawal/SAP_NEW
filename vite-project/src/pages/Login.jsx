@@ -6,6 +6,7 @@ import axios from "axios"
 
 import { saveUserState } from "../redux/user/userSlicer.js";
 import { ToastContainer, toast } from "react-toastify";
+import { baseUrl } from "../constants/baseUrl.js";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const Login = () => {
       
       axios.defaults.withCredentials = true;
 
-      await axios.post("http://localhost:3000/api/v1/user/login", user).then((res) => {
+      await axios.post(`${baseUrl}/api/v1/user/login`, user).then((res) => {
         console.log(res.data)
         // setError(res.data.message)
         toast(res.data.message, { type: "success" })
