@@ -75,11 +75,9 @@ const EventDetailPage = () => {
         }).then((res) => {
             console.log(res.data)
             toast("RSVP Submitted Successfully", { type: "success" })
-            
+        }).catch((error) => {
+            console.log(error)
         })
-            .catch((error) => {
-                console.log(error)
-            })
 
         setIsOpen(false);
     }
@@ -131,7 +129,7 @@ const EventDetailPage = () => {
 
                     isOpen && (
                         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                            <div className="bg-white shadow-md rounded p-7 w-[50%]">
+                            <div className="bg-white shadow-md rounded p-7 w-[80%]">
                                 <h2 className="text-xl font-bold mb-2">RSVP Now</h2>
                                 <TextInput
                                     type="text"

@@ -189,14 +189,14 @@ const SearchBar = () => {
                 </ul>
             </div>
 
-            <div className='flex flex-row justify-between w-[60%] m-auto'>
+            <div className='flex flex-row justify-center w-full px-8 items-center m-auto'>
                 {/*Mode Option*/}
-                <div className='w-[30%]'>
+                <div className='m-2'>
                     <Label htmlFor="Mode" value="Mode" />
                     <Select options={options} value={mode ? options.find(option => option.value === mode) : null} placeholder="Mode" onChange={handleModeChange} />
                 </div>
                 {/*Filter by date */}
-                <div className='w-[25%] '>
+                <div className=' w-[40%] m-2'>
                     <Label htmlFor="Filter By Date" value="Filter By Date " />
                     <Datepicker name="selectedDate" onSelectedDateChanged={handleDatePickerChange} />
                 </div>

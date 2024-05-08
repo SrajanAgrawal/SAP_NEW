@@ -11,7 +11,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -19,30 +19,30 @@ const Login = () => {
     e.preventDefault()
     if (email === "" || password === "") {
       toast("Please fill all fields", { type: "error" })
-      setError("Please fill all fields")
+      // setError("Please fill all fields")
     }
 
     else {
       const user = {
 
-        email: email,
+        email: email.toUpperCase(),
         password: password
       }
 
-      setError("Loading....")
+      
       axios.defaults.withCredentials = true;
 
       await axios.post("http://localhost:3000/api/v1/user/login", user).then((res) => {
         console.log(res.data)
-        setError(res.data.message)
+        // setError(res.data.message)
         toast(res.data.message, { type: "success" })
         dispatch(saveUserState(res.data.data))
         navigate("/")
       })
         .catch((error) => {
           console.log(error)
-          setError(error.message)
-          toast(error.message, { type: "error" })
+          // setError(error.response.data.message)
+          toast(error.response.data.message, { type: "error" })
         })
 
     }
@@ -86,12 +86,7 @@ const Login = () => {
         Don &apos t have an account? <a href="/register" className="text-blue-500">Register Here</a>
       </div>
 
-      {
-        error ?
-          <div className="bg-red-500 text-white p-2 rounded">
-            {error}
-          </div> : ""
-      }
+      
     </form>
     <ToastContainer />
     </>

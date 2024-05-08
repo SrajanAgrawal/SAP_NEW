@@ -58,7 +58,8 @@ const Register = () => {
             // toast.success("User Registered Successfully!", {position: "top-right", autoClose: 2000, hideProgressBar: true, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: "colored"});
 
             toast("User Registered Successfully", { type: "success" })
-            navigate("/login")
+            window.location.href = "/login"
+            // navigate("/login")
             // Add any additional handling after API call
         } catch (error) {
             setError(error.response.data.message)

@@ -34,7 +34,7 @@ const Header = () =>
     <Navbar fluid rounded>
       <Navbar.Brand href="/">
         <img src="/icons8-student-30.png" className="mr-3 h-6 sm:h-9" alt="" />
-     <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">CareerCorps Student Ambassdor</span>
+     <span className="self-center whitespace-nowrap text-md md:text-lg font-semibold dark:text-white">CareerCorps Student Ambassdor</span>
       </Navbar.Brand>
       <div className="flex md:order-2">
       {

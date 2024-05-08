@@ -93,12 +93,15 @@ const loginUser = async (req, res) => {
 
     // make sure the email exists.
     const existedUser = await User.findOne({ email });
-
-
-    if (!existedUser) {
-        res.status(400).json({ message: "Email does not exist" })
+    console.log(existedUser);
+    if(!existedUser) {
+        return res.status(400).json({ message: "Email does not exist" })
     }
-    console.log(existedUser.password);
+    if(existedUser === null) {
+        return res.status(400).json({ message: "Email does not exist" })
+    }
+
+  
     const storedPassword = existedUser.password
     const isValidPassword = await bcrypt.compare(password, storedPassword);
 

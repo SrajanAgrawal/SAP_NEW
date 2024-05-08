@@ -17,12 +17,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        lowercase: true
+        uppercase: true
     },
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        uppercase: true
     },
     password: {
         type: String,
