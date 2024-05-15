@@ -1,11 +1,18 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
 
-cloudinary.config({
-    cloud_name: 'dzgtrzxdu',
-    api_key: '268254871944818',
-    api_secret: 'gx3TxjkziD4fv-7voqvNN4Retj4'
-});
+// cloudinary.config({
+//     cloud_name: 'dzgtrzxdu',
+//     api_key: '268254871944818',
+//     api_secret: 'gx3TxjkziD4fv-7voqvNN4Retj4'
+
+// });
+
+cloudinary.config({ 
+    cloud_name: process.env.CLOUDINARY_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY, 
+    api_secret: process.env.CLOUDINARY_API_SECRET
+  });
 
 const uploadFileOnCloudinary = async (localFilePath) => {
     try {
@@ -15,7 +22,12 @@ const uploadFileOnCloudinary = async (localFilePath) => {
             resource_type: "auto"
         });
 
-        fs.unlinkSync(localFilePath);
+        fs.unlinkSync("public"+localFilePath,function(err){
+            if(err) throw err;
+        
+            console.log('File deleted!');
+        });
+        // fs.unlinkSync(`/${localFilePath}`);
         // file has been successfully uploaded
         console.log("File has been successfully uploaded", response.url);
         return response;
@@ -23,7 +35,12 @@ const uploadFileOnCloudinary = async (localFilePath) => {
     } catch (error) {
         console.log(error);
         // delete or unlink the file you have uploaded on your server.
-        fs.unlinkSync(localFilePath); // public/temp/rest.jpg
+        fs.unlinkSync("public"+localFilePath,function(err){
+            if(err) throw err;
+        
+            console.log('File deleted!');
+        });
+        // fs.unlinkSync(localFilePath); // public/temp/rest.jpg
         return null;
     }
 }

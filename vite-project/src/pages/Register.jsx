@@ -1,6 +1,5 @@
 import { Label, FileInput, TextInput, Button } from "flowbite-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {ToastContainer, toast} from 'react-toastify';   
 import { baseUrl } from "../constants/baseUrl";
@@ -8,8 +7,7 @@ import { baseUrl } from "../constants/baseUrl";
 
 const Register = () => {
 
-    const navigate = useNavigate()
-
+    
     const [error, setError] = useState("");
     const [avatar, setAvatar] = useState();
     const [firstname, setFirstname] = useState("");
