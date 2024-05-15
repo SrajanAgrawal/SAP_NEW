@@ -53,12 +53,12 @@ const registerUser = async (req, res) => {
         return;
     }
 
-    const fileName = req.file.originalname;
-    const response = await uploadFileOnCloudinary(`\\public\\temp\\${fileName}`);
-    // const avatar = await uploadOnCloudinary(avatarLocalPath)
-    //console.log(response)
+    // const fileName = req.file.originalname;
+    const response = await uploadFileOnCloudinary(avatarLocalPath);
+    console.log(response);
 
-    if (!response && !response.url) {
+
+    if (!(response && response.url)) {
         res.status(500).json({ message: "Something went wrong while uploading the image" })
     }
     
