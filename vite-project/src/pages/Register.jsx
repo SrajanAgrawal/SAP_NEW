@@ -44,15 +44,15 @@ const Register = () => {
             formData.append('phonenumber', phoneNumber);
             formData.append('dob', DateOfBirth);
             formData.append('companyname', companyName);
-            formData.append('role', ['user'])
+            // formData.append('role', ['user'])
 
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data',
-                },
-            };
+            // const config = {
+            //     headers: {
+            //         'content-type': 'multipart/form-data',
+            //     },
+            // };
 
-            const response = await axios.post(`${baseUrl}/api/v1/user/register`, formData, config);
+            const response = await axios.post(`${baseUrl}/api/v1/user/register`, formData);
             console.log('API Response:', response.data);
             setError(response.data.messsage + "Loading.....")
             

@@ -36,10 +36,10 @@ const registerUser = async (req, res) => {
     const avatarLocalPath = req.file?.path;
     //console.log(avatarLocalPath);
 
-    const { username, email, password, firstname, lastname, phonenumber, role } = req.body;
+    const { username, email, password, firstname, lastname, phonenumber } = req.body;
     console.log(phonenumber, firstname)
     // validations
-    if (!(username && email && password && firstname && lastname && phonenumber, role)) {
+    if (!(username && email && password && firstname && lastname && phonenumber)) {
        return res.status(400).json({ message: "All fields are required" })
     }
 
@@ -71,7 +71,7 @@ const registerUser = async (req, res) => {
         firstname,
         lastname,
         phonenumber: phonenumber.toString(),
-        role
+        
     }).then((result) => {
         const user = result
         res.status(201).json({ data: user, message: "User created Successfully" })
