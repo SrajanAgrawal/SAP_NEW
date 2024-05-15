@@ -22,11 +22,11 @@ const uploadFileOnCloudinary = async (localFilePath) => {
             resource_type: "auto"
         });
 
-        fs.unlinkSync("public"+localFilePath,function(err){
-            if(err) throw err;
+        // fs.unlinkSync("public"+localFilePath,function(err){
+        //     if(err) throw err;
         
-            console.log('File deleted!');
-        });
+        //     console.log('File deleted!');
+        // });
         // fs.unlinkSync(`/${localFilePath}`);
         // file has been successfully uploaded
         console.log("File has been successfully uploaded", response.url);
@@ -35,11 +35,11 @@ const uploadFileOnCloudinary = async (localFilePath) => {
     } catch (error) {
         console.log(error);
         // delete or unlink the file you have uploaded on your server.
-        fs.unlinkSync("public"+localFilePath,function(err){
-            if(err) throw err;
+        // fs.unlinkSync("public"+localFilePath,function(err){
+        //     if(err) throw err;
         
-            console.log('File deleted!');
-        });
+        //     console.log('File deleted!');
+        // });
         // fs.unlinkSync(localFilePath); // public/temp/rest.jpg
         return null;
     }
